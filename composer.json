@@ -18,11 +18,13 @@
     "repositories": [
         {
             "type": "github",
-            "url": "https://github.com/NijmegenSync/Contracts"
+            "url": "https://github.com/NijmegenSync/Contracts",
+            "no-api": true
         },
         {
             "type": "github",
-            "url": "https://github.com/NijmegenSync/DataSource"
+            "url": "https://github.com/NijmegenSync/DataSource",
+            "no-api": true
         }
     ],
     "autoload": {
