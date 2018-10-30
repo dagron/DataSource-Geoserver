@@ -1,8 +1,8 @@
 {
-    "name": "NijmegenSync/GeoserverDataSource",
-    "description": "Contains the base functionality and contracts which DataSources must use so that NijmegenSync can harvest the DataSource.",
+    "name": "NijmegenSync/DS-Geoserver",
+    "description": "Contains the functionality to harvest the Nijmegen geoserver.",
     "keywords": [],
-    "homepage": "https://github.com/WterBerg/NijmegenSync-DS-Geoserver",
+    "homepage": "https://github.com/NijmegenSync/DataSource-Geoserver",
     "readme": "README.md",
     "abandoned": false,
     "type": "library",
@@ -18,7 +18,11 @@
     "repositories": [
         {
             "type": "github",
-            "url": "https://github.com/WterBerg/NijmegenSync-DataSource"
+            "url": "https://github.com/NijmegenSync/Contracts"
+        },
+        {
+            "type": "github",
+            "url": "https://github.com/NijmegenSync/DataSource"
         }
     ],
     "autoload": {
@@ -39,7 +43,10 @@
     "require": {
         "php": "^7.2",
         "ext-json": "*",
+        "doctrine/orm": "2.4.*",
+        "guzzlehttp/guzzle": "^6.2",
         "symfony/filesystem": "^4",
+        "NijmegenSync/Contracts": "dev-master",
         "NijmegenSync/DataSource": "dev-master"
     },
     "require-dev": {

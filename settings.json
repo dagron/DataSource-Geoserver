@@ -1,0 +1,12 @@
+{
+    "name": "geoserver",
+    "harvesting_frequency": "daily",
+    "api_paths": {
+        "overview": "a",
+        "retrieval": "b"
+    },
+    "file_defaults": "defaults.json",
+    "file_value_mapping": "value_mappings.json",
+    "file_blacklist_mapping": "blacklist_mappings.json",
+    "file_whitelist_mapping": "whitelist_mappings.json"
+}
