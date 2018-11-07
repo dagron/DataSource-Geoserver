@@ -135,7 +135,7 @@ class GeoserverDataSourceManager implements IDataSourceManager {
         }
 
         try {
-            $settings_file = sprintf('%s/../settings.json', __DIR__);
+            $settings_file = sprintf('%s/../config/settings.json', __DIR__);
             $json_file_contents = json_decode($this->file_system_helper->readFile($settings_file), true);
             $keys = ['name', 'harvesting_frequency', 'api_paths', 'file_defaults', 'file_value_mapping', 'file_blacklist_mapping', 'file_whitelist_mapping'];
             foreach ($keys as $key) {
