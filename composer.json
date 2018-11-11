@@ -1,5 +1,5 @@
 {
-    "name": "NijmegenSync/DS-Geoserver",
+    "name": "NijmegenSync/DataSource-Geoserver",
     "description": "Contains the functionality to harvest the Nijmegen geoserver.",
     "keywords": [],
     "homepage": "https://github.com/NijmegenSync/DataSource-Geoserver",
@@ -29,7 +29,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "GeoserverDataSource\\": "src/"
+            "NijmegenSync\\DataSource\\Geoserver\\": "src/"
         }
     },
     "config": {
@@ -40,14 +40,14 @@
         "preferred-install": "dist"
     },
     "scripts": {
-        "test": "phpunit --bootstrap vendor/autoload.php --testdox test/"
+        "test": "phpunit --bootstrap vendor/autoload.php",
+        "quality": "php-cs-fixer fix --dry-run",
+        "fix-quality": "php-cs-fixer fix"
     },
     "require": {
         "php": "^7.2",
         "ext-json": "*",
-        "doctrine/orm": "2.4.*",
         "guzzlehttp/guzzle": "^6.2",
-        "symfony/filesystem": "^4",
         "NijmegenSync/Contracts": "dev-master",
         "NijmegenSync/DataSource": "dev-master"
     },

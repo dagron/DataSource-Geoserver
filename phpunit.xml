@@ -2,8 +2,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/7.3/phpunit.xsd"
     backupGlobals="true"
-    cacheTokens="false"
-    verbose="true">
+    cacheTokens="false">
+
+    <testsuite name="default">
+
+        <directory>test</directory>
+
+    </testsuite>
 
     <filter>
 
@@ -12,11 +17,5 @@
         </whitelist>
 
     </filter>
-
-    <logging>
-
-        <log type="coverage-html" target="coverage" lowUpperBound="50" highLowerBound="80"/>
-
-    </logging>
 
 </phpunit>
