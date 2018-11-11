@@ -15,7 +15,7 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
      */
     public function requiresAuthenticationDetails(): bool
     {
-        // TODO: Implement requiresAuthenticationDetails() method.
+        return true;
     }
 
     /**

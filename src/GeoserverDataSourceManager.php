@@ -5,6 +5,7 @@ namespace NijmegenSync\DataSource\Geoserver;
 use NijmegenSync\Contracts\BaseNijmegenSyncModule;
 use NijmegenSync\Contracts\Exception\InitializationException;
 use NijmegenSync\DataSource\Geoserver\Harvester\GeoserverDataSourceHarvester;
+use NijmegenSync\DataSource\Harvesting\HarvestingFrequency;
 use NijmegenSync\DataSource\Harvesting\IDataSourceHarvester;
 use NijmegenSync\DataSource\IDataSourceManager;
 
@@ -13,6 +14,14 @@ use NijmegenSync\DataSource\IDataSourceManager;
  */
 class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IDataSourceManager
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -26,7 +35,7 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
      */
     public function getHarvestingFrequency(): string
     {
-        return '';
+        return HarvestingFrequency::DAILY;
     }
 
     /**
@@ -74,6 +83,12 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
      */
     public function initialize(): void
     {
-        throw new InitializationException('not implemented');
+        if (null == $this->file_system_helper) {
+            throw new InitializationException(
+                'initialize() requires that a IFileSystemHelper implementation is assigned'
+            );
+        }
+
+        $this->is_initialized = true;
     }
 }

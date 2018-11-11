@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class GeoserverDataSourceManagerTest extends TestCase
 {
-    public function testInitializationFails(): void
+    public function testInitializationFailsWithoutFileSystemHelper(): void
     {
         $manager = new GeoserverDataSourceManager();
 
@@ -14,7 +14,7 @@ class GeoserverDataSourceManagerTest extends TestCase
             $manager->initialize();
             $this->fail();
         } catch (InitializationException $e) {
-            $this->assertSame('not implemented', $e->getMessage());
+            $this->assertSame('initialize() requires that a IFileSystemHelper implementation is assigned', $e->getMessage());
         }
     }
 }
