@@ -18,7 +18,7 @@
     "repositories": [
         {
             "type": "github",
-            "url": "https://github.com/NijmegenSync/Contracts",
+            "url": "https://github.com/NijmegenSync/Shared",
             "no-api": true
         },
         {
@@ -29,7 +29,16 @@
     ],
     "autoload": {
         "psr-4": {
+            "NijmegenSync\\DataSource\\Geoserver\\BuildRule\\": "src/BuildRule/",
+            "NijmegenSync\\DataSource\\Geoserver\\Harvester\\": "src/Harvester/",
             "NijmegenSync\\DataSource\\Geoserver\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "NijmegenSync\\Test\\DataSource\\Geoserver\\BuildRule\\": "test/BuildRule/",
+            "NijmegenSync\\Test\\DataSource\\Geoserver\\Harvester\\": "test/Harvester/",
+            "NijmegenSync\\Test\\DataSource\\Geoserver\\": "test/"
         }
     },
     "config": {
@@ -47,8 +56,9 @@
     "require": {
         "php": "^7.2",
         "ext-json": "*",
+        "ext-simplexml": "*",
         "guzzlehttp/guzzle": "^6.2",
-        "NijmegenSync/Contracts": "dev-master",
+        "NijmegenSync/Shared": "dev-master",
         "NijmegenSync/DataSource": "dev-master"
     },
     "require-dev": {

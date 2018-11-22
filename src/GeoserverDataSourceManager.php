@@ -3,9 +3,7 @@
 namespace NijmegenSync\DataSource\Geoserver;
 
 use NijmegenSync\Contracts\BaseNijmegenSyncModule;
-use NijmegenSync\Contracts\Exception\InitializationException;
 use NijmegenSync\DataSource\Geoserver\Harvester\GeoserverDataSourceHarvester;
-use NijmegenSync\DataSource\Harvesting\HarvestingFrequency;
 use NijmegenSync\DataSource\Harvesting\IDataSourceHarvester;
 use NijmegenSync\DataSource\IDataSourceManager;
 
@@ -14,12 +12,15 @@ use NijmegenSync\DataSource\IDataSourceManager;
  */
 class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IDataSourceManager
 {
+    /** @var string */
+    protected $base_uri;
+
     /**
      * {@inheritdoc}
      */
-    public function __construct()
+    public function initialize(): void
     {
-        parent::__construct();
+        // TODO: Implement initialize() method.
     }
 
     /**
@@ -27,7 +28,7 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
      */
     public function getName(): string
     {
-        return '';
+        // TODO: Implement getName() method.
     }
 
     /**
@@ -35,7 +36,7 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
      */
     public function getHarvestingFrequency(): string
     {
-        return HarvestingFrequency::DAILY;
+        // TODO: Implement getHarvestingFrequency() method.
     }
 
     /**
@@ -43,7 +44,10 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
      */
     public function getHarvester(): IDataSourceHarvester
     {
-        return new GeoserverDataSourceHarvester();
+        $harvester = new GeoserverDataSourceHarvester();
+        $harvester->setBaseURI($this->base_uri);
+
+        return $harvester;
     }
 
     /**
@@ -51,7 +55,7 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
      */
     public function getDefaultsFilePath(): string
     {
-        return '';
+        // TODO: Implement getDefaultsFilePath() method.
     }
 
     /**
@@ -59,7 +63,7 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
      */
     public function getValueMappingFilePath(): string
     {
-        return '';
+        // TODO: Implement getValueMappingFilePath() method.
     }
 
     /**
@@ -67,7 +71,7 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
      */
     public function getBlacklistMappingFilePath(): string
     {
-        return '';
+        // TODO: Implement getBlacklistMappingFilePath() method.
     }
 
     /**
@@ -75,20 +79,14 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
      */
     public function getWhitelistMappingFilePath(): string
     {
-        return '';
+        // TODO: Implement getWhitelistMappingFilePath() method.
     }
 
     /**
      * {@inheritdoc}
      */
-    public function initialize(): void
+    public function getCustomBuildRules(): array
     {
-        if (null == $this->file_system_helper) {
-            throw new InitializationException(
-                'initialize() requires that a IFileSystemHelper implementation is assigned'
-            );
-        }
-
-        $this->is_initialized = true;
+        // TODO: Implement getCustomBuildRules() method.
     }
 }

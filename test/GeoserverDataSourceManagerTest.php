@@ -1,7 +1,9 @@
 <?php
 
-use NijmegenSync\Contracts\Exception\InitializationException;
+namespace NijmegenSync\Test\DataSource\Geoserver;
+
 use NijmegenSync\DataSource\Geoserver\GeoserverDataSourceManager;
+use NijmegenSync\Exception\InitializationException;
 use PHPUnit\Framework\TestCase;
 
 class GeoserverDataSourceManagerTest extends TestCase
