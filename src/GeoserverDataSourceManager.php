@@ -47,7 +47,7 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
     {
         parent::__construct();
 
-        $this->base_uri = null;
+        $this->base_uri  = null;
         $this->harvester = null;
     }
 
@@ -60,15 +60,15 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
             throw new InitializationException('module is already initialized');
         }
 
-        if ($this->file_system_helper == null) {
+        if (null == $this->file_system_helper) {
             throw new InitializationException('module requires IFileSystemHelper for initialization');
         }
 
         try {
-            $settings_file = \sprintf('%s/%s', __DIR__, '../var/settings.json');
+            $settings_file     = \sprintf('%s/%s', __DIR__, '../var/settings.json');
             $settings_contents = $this->file_system_helper->readFile($settings_file);
-            $settings_json = \json_decode($settings_contents, true);
-            $settings_keys = ['name', 'harvesting_frequency', 'base_uri'];
+            $settings_json     = \json_decode($settings_contents, true);
+            $settings_keys     = ['name', 'harvesting_frequency', 'base_uri'];
 
             foreach ($settings_keys as $key) {
                 if (!\array_key_exists($key, $settings_json)) {
@@ -82,7 +82,7 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
 
             $settings_file_keys = [
                 'defaults_file_path', 'value_mappings_file_path', 'blacklist_mappings_file_path',
-                'whitelist_mappings_file_path'
+                'whitelist_mappings_file_path',
             ];
 
             foreach ($settings_file_keys as $key) {
