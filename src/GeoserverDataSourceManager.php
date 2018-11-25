@@ -3,7 +3,7 @@
 namespace NijmegenSync\DataSource\Geoserver;
 
 use NijmegenSync\Contracts\BaseNijmegenSyncModule;
-use NijmegenSync\DataSource\Geoserver\Harvester\GeoserverDataSourceHarvester;
+use NijmegenSync\DataSource\Geoserver\Harvesting\GeoserverDataSourceHarvester;
 use NijmegenSync\DataSource\Harvesting\IDataSourceHarvester;
 use NijmegenSync\DataSource\IDataSourceManager;
 

@@ -1,9 +1,0 @@
-{
-    "name": "geoserver",
-    "harvesting_frequency": "daily",
-    "base_uri": "https://services.nijmegen.nl/geoservices/",
-    "file_defaults": "defaults.json",
-    "file_value_mapping": "value_mappings.json",
-    "file_blacklist_mapping": "blacklist_mappings.json",
-    "file_whitelist_mapping": "whitelist_mappings.json"
-}

@@ -1,0 +1,16 @@
+{
+    "language":             "http://publications.europa.eu/resource/authority/language/NLD",
+    "metadataLanguage":     "http://publications.europa.eu/resource/authority/language/NLD",
+    "license":              "http://creativecommons.org/publicdomain/zero/1.0/deed.nl",
+    "theme":                "http://standaarden.overheid.nl/owms/terms/Ruimte_en_infrastructuur",
+    "authority":            "http://standaarden.overheid.nl/owms/terms/Nijmegen_(gemeente)",
+    "publisher":            "http://standaarden.overheid.nl/owms/terms/Nijmegen_(gemeente)",
+    "spatial_scheme":       "http://standaarden.overheid.nl/owms/4.0/doc/waardelijsten/overheid.gemeente",
+    "spatial_value":        "http://standaarden.overheid.nl/owms/terms/Nijmegen_(gemeente)",
+    "frequency":            "http://publications.europa.eu/resource/authority/frequency/IRREG",
+    "resource": {
+        "language":         "http://publications.europa.eu/resource/authority/language/NLD",
+        "metadataLanguage": "http://publications.europa.eu/resource/authority/language/NLD",
+        "license":          "http://creativecommons.org/publicdomain/zero/1.0/deed.nl"
+    }
+}

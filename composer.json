@@ -30,14 +30,14 @@
     "autoload": {
         "psr-4": {
             "NijmegenSync\\DataSource\\Geoserver\\BuildRule\\": "src/BuildRule/",
-            "NijmegenSync\\DataSource\\Geoserver\\Harvester\\": "src/Harvester/",
+            "NijmegenSync\\DataSource\\Geoserver\\Harvesting\\": "src/Harvesting/",
             "NijmegenSync\\DataSource\\Geoserver\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "NijmegenSync\\Test\\DataSource\\Geoserver\\BuildRule\\": "test/BuildRule/",
-            "NijmegenSync\\Test\\DataSource\\Geoserver\\Harvester\\": "test/Harvester/",
+            "NijmegenSync\\Test\\DataSource\\Geoserver\\Harvesting\\": "test/Harvesting/",
             "NijmegenSync\\Test\\DataSource\\Geoserver\\": "test/"
         }
     },
