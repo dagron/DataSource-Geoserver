@@ -21,7 +21,9 @@ class DatasetDescriptionBuildRule implements IDatasetBuildRule
                               array $value_mappers, array $blacklist_mappers,
                               array $whitelist_mappers): void
     {
-        $template = \file_get_contents(\sprintf('%s/%s', __DIR__, '../../var/description_template.tpl'));
+        $template = \file_get_contents(
+            \sprintf('%s/%s', __DIR__, '../../var/description_template.tpl')
+        );
 
         $dataset->setDescription(new DCATLiteral(\sprintf($template, $data['title'])));
     }

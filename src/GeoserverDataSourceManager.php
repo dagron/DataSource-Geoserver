@@ -3,9 +3,12 @@
 namespace NijmegenSync\DataSource\Geoserver;
 
 use NijmegenSync\Contracts\BaseNijmegenSyncModule;
+use NijmegenSync\DataSource\Geoserver\BuildRule\BuildRuleAbstractFactory;
 use NijmegenSync\DataSource\Geoserver\Harvesting\GeoserverDataSourceHarvester;
 use NijmegenSync\DataSource\Harvesting\IDataSourceHarvester;
 use NijmegenSync\DataSource\IDataSourceManager;
+use NijmegenSync\Exception\InitializationException;
+use NijmegenSync\Exception\IOException;
 
 /**
  * Class GeoserverDataSourceManager.
@@ -13,14 +16,91 @@ use NijmegenSync\DataSource\IDataSourceManager;
 class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IDataSourceManager
 {
     /** @var string */
+    protected $name;
+
+    /** @var string */
+    protected $harvesting_frequency;
+
+    /** @var string */
+    protected $defaults_file_path;
+
+    /** @var string */
+    protected $value_mappings_file_path;
+
+    /** @var string */
+    protected $blacklist_mappings_file_path;
+
+    /** @var string */
+    protected $whitelist_mappings_file_path;
+
+    /** @var string */
     protected $base_uri;
+
+    /** @var GeoserverDataSourceHarvester */
+    protected $harvester;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->base_uri = null;
+        $this->harvester = null;
+    }
 
     /**
      * {@inheritdoc}
      */
     public function initialize(): void
     {
-        // TODO: Implement initialize() method.
+        if ($this->isInitialized()) {
+            throw new InitializationException('module is already initialized');
+        }
+
+        if ($this->file_system_helper == null) {
+            throw new InitializationException('module requires IFileSystemHelper for initialization');
+        }
+
+        try {
+            $settings_file = \sprintf('%s/%s', __DIR__, '../var/settings.json');
+            $settings_contents = $this->file_system_helper->readFile($settings_file);
+            $settings_json = \json_decode($settings_contents, true);
+            $settings_keys = ['name', 'harvesting_frequency', 'base_uri'];
+
+            foreach ($settings_keys as $key) {
+                if (!\array_key_exists($key, $settings_json)) {
+                    throw new InitializationException(
+                        \sprintf('settings file is missing key %s', $key)
+                    );
+                }
+
+                $this->$key = $settings_json[$key];
+            }
+
+            $settings_file_keys = [
+                'defaults_file_path', 'value_mappings_file_path', 'blacklist_mappings_file_path',
+                'whitelist_mappings_file_path'
+            ];
+
+            foreach ($settings_file_keys as $key) {
+                if (!\array_key_exists($key, $settings_json)) {
+                    throw new InitializationException(
+                        \sprintf('settings file is missing key %s', $key)
+                    );
+                }
+
+                $this->$key = \sprintf('%s/%s/%s', __DIR__, '../var', $settings_json[$key]);
+            }
+
+            $this->harvester = new GeoserverDataSourceHarvester();
+            $this->harvester->setBaseURI($this->base_uri);
+
+            $this->is_initialized = true;
+        } catch (IOException $e) {
+            throw new InitializationException($e);
+        }
     }
 
     /**
@@ -28,7 +108,7 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
      */
     public function getName(): string
     {
-        // TODO: Implement getName() method.
+        return $this->name;
     }
 
     /**
@@ -36,7 +116,7 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
      */
     public function getHarvestingFrequency(): string
     {
-        // TODO: Implement getHarvestingFrequency() method.
+        return $this->harvesting_frequency;
     }
 
     /**
@@ -44,10 +124,7 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
      */
     public function getHarvester(): IDataSourceHarvester
     {
-        $harvester = new GeoserverDataSourceHarvester();
-        $harvester->setBaseURI($this->base_uri);
-
-        return $harvester;
+        return $this->harvester;
     }
 
     /**
@@ -55,7 +132,7 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
      */
     public function getDefaultsFilePath(): string
     {
-        // TODO: Implement getDefaultsFilePath() method.
+        return $this->defaults_file_path;
     }
 
     /**
@@ -63,7 +140,7 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
      */
     public function getValueMappingFilePath(): string
     {
-        // TODO: Implement getValueMappingFilePath() method.
+        return $this->value_mappings_file_path;
     }
 
     /**
@@ -71,7 +148,7 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
      */
     public function getBlacklistMappingFilePath(): string
     {
-        // TODO: Implement getBlacklistMappingFilePath() method.
+        return $this->blacklist_mappings_file_path;
     }
 
     /**
@@ -79,7 +156,7 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
      */
     public function getWhitelistMappingFilePath(): string
     {
-        // TODO: Implement getWhitelistMappingFilePath() method.
+        return $this->whitelist_mappings_file_path;
     }
 
     /**
@@ -87,6 +164,6 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
      */
     public function getCustomBuildRules(): array
     {
-        // TODO: Implement getCustomBuildRules() method.
+        return BuildRuleAbstractFactory::getAll();
     }
 }

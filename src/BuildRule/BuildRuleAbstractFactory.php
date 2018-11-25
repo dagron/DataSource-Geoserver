@@ -16,7 +16,7 @@ class BuildRuleAbstractFactory
      *
      * @return IDatasetBuildRule[] The custom build rules to use
      */
-    public function getAll(): array
+    public static function getAll(): array
     {
         return [
             'description' => new DatasetDescriptionBuildRule(),
