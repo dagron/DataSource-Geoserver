@@ -5,6 +5,7 @@ namespace NijmegenSync\DataSource\Geoserver;
 use NijmegenSync\Contracts\BaseNijmegenSyncModule;
 use NijmegenSync\DataSource\Geoserver\BuildRule\BuildRuleAbstractFactory;
 use NijmegenSync\DataSource\Geoserver\Harvesting\GeoserverDataSourceHarvester;
+use NijmegenSync\DataSource\Harvesting\HarvestingFrequency;
 use NijmegenSync\DataSource\Harvesting\IDataSourceHarvester;
 use NijmegenSync\DataSource\IDataSourceManager;
 use NijmegenSync\Exception\InitializationException;
@@ -92,6 +93,12 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
                 }
 
                 $this->$key = \sprintf('%s/%s/%s', __DIR__, '../var', $settings_json[$key]);
+            }
+
+            if (!HarvestingFrequency::isValid($this->harvesting_frequency)) {
+                throw new InitializationException(
+                    \sprintf('module declared illegal harvesting frequency %s', $this->harvesting_frequency)
+                );
             }
 
             $this->harvester = new GeoserverDataSourceHarvester();
