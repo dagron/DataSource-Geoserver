@@ -1,3 +1,16 @@
 {
-
+    "resource.format": [
+        "csv",
+        "gml32",
+        "json",
+        "KML",
+        "SHAPE-ZIP"
+    ],
+    "resource.mediatype": [
+        "csv",
+        "gml32",
+        "json",
+        "KML",
+        "SHAPE-ZIP"
+    ]
 }

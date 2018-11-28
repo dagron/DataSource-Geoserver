@@ -7,7 +7,7 @@
     "publisher":            "http://standaarden.overheid.nl/owms/terms/Nijmegen_(gemeente)",
     "spatial_scheme":       "http://standaarden.overheid.nl/owms/4.0/doc/waardelijsten/overheid.gemeente",
     "spatial_value":        "http://standaarden.overheid.nl/owms/terms/Nijmegen_(gemeente)",
-    "frequency":            "http://publications.europa.eu/resource/authority/frequency/IRREG",
+    "frequency":            "http://publications.europa.eu/resource/authority/frequency/DAILY",
     "resource": {
         "language":         "http://publications.europa.eu/resource/authority/language/NLD",
         "metadataLanguage": "http://publications.europa.eu/resource/authority/language/NLD",
