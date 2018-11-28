@@ -11,6 +11,9 @@ use NijmegenSync\DataSource\Harvesting\IDataSourceHarvester;
 
 /**
  * Class GeoserverDataSourceHarvester.
+ *
+ * Performs the actual harvesting of the Nijmegen geoserver. It only harvests the publicly available
+ * datasets, as such it requires no authentication details for performing its tasks.
  */
 class GeoserverDataSourceHarvester implements IDataSourceHarvester
 {
@@ -19,6 +22,8 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
 
     /**
      * {@inheritdoc}
+     *
+     * The GeoserverDataSourceHarvester requires no AuthenticationDetails.
      */
     public function requiresAuthenticationDetails(): bool
     {
@@ -27,6 +32,9 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
 
     /**
      * {@inheritdoc}
+     *
+     * No operation is performed as the GeoserverDataSourceHarvester requires no
+     * AuthenticationDetails.
      */
     public function setAuthenticationDetails(IAuthenticationDetails $details): void
     {
@@ -41,6 +49,16 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
     public function setBaseURI(string $uri): void
     {
         $this->base_uri = $uri;
+    }
+
+    /**
+     * Getter for the base_uri property, may return null.
+     *
+     * @return null|string The base_uri value
+     */
+    public function getBaseUri(): ?string
+    {
+        return $this->base_uri;
     }
 
     /**
@@ -74,6 +92,7 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
             foreach ($parsable_response->getAllEntities() as $entity) {
                 $data                        = [];
                 $data['title']               = \str_replace('_', ' ', $entity->findTitle());
+                $data['description']         = $entity->findAbstract();
                 $data['contact_point_email'] = $parsable_response->findContactEmail();
                 $data['contact_point_name']  = \sprintf(
                     '%s, %s',

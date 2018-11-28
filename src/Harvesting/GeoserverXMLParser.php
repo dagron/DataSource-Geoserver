@@ -68,6 +68,25 @@ class GeoserverXMLParser
     }
 
     /**
+     * Finds and returns the abstract of a FeatureType, will return an empty string if nothing is
+     * found.
+     *
+     * @return string The abstract of the FeatureType
+     */
+    public function findAbstract(): string
+    {
+        $children = $this->xml->children();
+
+        foreach ($children as $child) {
+            if ('Abstract' == $child->getName()) {
+                return \strval($child);
+            }
+        }
+
+        return '';
+    }
+
+    /**
      * Finds and returns the name of the contactPoint of the Nijmegen geoserver, will return an
      * empty string if no name is found.
      *
