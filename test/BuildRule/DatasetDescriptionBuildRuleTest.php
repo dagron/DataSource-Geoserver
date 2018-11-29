@@ -13,7 +13,7 @@ class DatasetDescriptionBuildRuleTest extends TestCase
     {
         $dataset = new DCATDataset();
         $builder = new DatasetDescriptionBuildRule();
-        $data    = ['title' => 'test'];
+        $data    = ['title' => 'test', 'geoserver_layers' => ['a']];
         $notices = [];
 
         $this->assertNull($dataset->getDescription());
