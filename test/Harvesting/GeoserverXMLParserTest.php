@@ -28,7 +28,7 @@ class GeoserverXMLParserTest extends TestCase
             </root>
         '));
 
-        $this->assertTrue(\count($parser->getAllEntities()) === 2);
+        $this->assertTrue(2 === \count($parser->getAllEntities()));
     }
 
     public function testReturnsEmptyStringWhenNoTitleIsFound(): void
