@@ -20,6 +20,17 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
     /** @var string */
     protected $base_uri;
 
+    /** @var string[] */
+    protected $layers;
+
+    /**
+     * GeoserverDataSourceHarvester constructor.
+     */
+    public function __construct()
+    {
+        $this->layers = [];
+    }
+
     /**
      * {@inheritdoc}
      *
@@ -62,6 +73,26 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
     }
 
     /**
+     * Setter for the layers property.
+     *
+     * @param string[] $layers The value to set
+     */
+    public function setLayers(array $layers): void
+    {
+        $this->layers = $layers;
+    }
+
+    /**
+     * Getter for the layers property, may return an empty array.
+     *
+     * @return string[] The layers property
+     */
+    public function getLayers(): array
+    {
+        return $this->layers;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function harvest(): array
@@ -70,64 +101,66 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
         $harvest = [];
 
         try {
-            $request = $client->request(
-                'GET',
-                '/geoservices/extern_kaartviewer/wfs?request=GetCapabilities',
-                [
-                    'accept' => 'application/xml',
-                ]
-            );
-
-            if (200 !== $request->getStatusCode()) {
-                throw new DataSourceUnavailableHarvestingException(
-                    \sprintf(
-                        'datasource responded with HTTP statuscode %s',
-                        $request->getStatusCode()
-                    )
-                );
-            }
-
-            $parsable_response = new GeoserverXMLParser(new \SimpleXMLElement($request->getBody()));
-
-            foreach ($parsable_response->getAllEntities() as $entity) {
-                $data                        = [];
-                $data['title']               = \str_replace('_', ' ', $entity->findTitle());
-                $data['description']         = $entity->findAbstract();
-                $data['contact_point_email'] = $parsable_response->findContactEmail();
-                $data['contact_point_name']  = \sprintf(
-                    '%s, %s',
-                    $parsable_response->findContactName(),
-                    $parsable_response->findContactOrganization()
-                );
-                $data['access_rights'] = $parsable_response->findAccessRights();
-                $data['keyword'][]     = \array_merge(
-                    $entity->findGlobalKeywords(),
-                    $entity->findKeywords()
+            foreach ($this->layers as $layer) {
+                $request = $client->request(
+                    'GET',
+                    \sprintf('/geoservices/%s/wfs?service=WFS&request=GetCapabilities', $layer),
+                    [
+                        'accept' => 'application/xml',
+                    ]
                 );
 
-                foreach ($parsable_response->findSupportedOutputTypes() as $output_type) {
-                    $resource                = [];
-                    $resource['title']       = $output_type;
-                    $resource['description'] = $output_type;
-                    $resource['format']      = $output_type;
-                    $resource['mediaType']   = $output_type;
-                    $resource['url']         = \sprintf(
-                        '%s/wfs?request=GetFeature&typeName=%s',
-                        $this->base_uri, $entity->findTitle()
+                if (200 !== $request->getStatusCode()) {
+                    throw new DataSourceUnavailableHarvestingException(
+                        \sprintf(
+                            'datasource responded with HTTP statuscode %s',
+                            $request->getStatusCode()
+                        )
                     );
-                    $resource['download_url'][] = \sprintf(
-                        '%s/wfs?request=GetFeature&typeName=%s&outputFormat=%s',
-                        $this->base_uri, $entity->findTitle(), $output_type
-                    );
-                    $resource['rights'] = $parsable_response->findAccessRights();
-
-                    $data['resources'][] = $resource;
                 }
 
-                $harvest_result = new HarvestResult();
-                $harvest_result->setResult($data);
+                $parsable_response = new GeoserverXMLParser(new \SimpleXMLElement($request->getBody()));
 
-                $harvest[] = $harvest_result;
+                foreach ($parsable_response->getAllEntities() as $entity) {
+                    $data                        = [];
+                    $data['title']               = \str_replace('_', ' ', $entity->findTitle());
+                    $data['description']         = $entity->findAbstract();
+                    $data['contact_point_email'] = $parsable_response->findContactEmail();
+                    $data['contact_point_name']  = \sprintf(
+                        '%s, %s',
+                        $parsable_response->findContactName(),
+                        $parsable_response->findContactOrganization()
+                    );
+                    $data['access_rights'] = $parsable_response->findAccessRights();
+                    $data['keyword'][]     = \array_merge(
+                        $entity->findGlobalKeywords(),
+                        $entity->findKeywords()
+                    );
+
+                    foreach ($parsable_response->findSupportedOutputTypes() as $output_type) {
+                        $resource                = [];
+                        $resource['title']       = $output_type;
+                        $resource['description'] = $output_type;
+                        $resource['format']      = $output_type;
+                        $resource['mediaType']   = $output_type;
+                        $resource['url']         = \sprintf(
+                            '%s/geoserver/%s/wfs?service=WFS&request=GetFeature&typeName=%s',
+                            $this->base_uri, $layer, $entity->findTitle()
+                        );
+                        $resource['download_url'][] = \sprintf(
+                            '%s/geoserver/%s/wfs?service=WFS&request=GetFeature&typeName=%s&outputFormat=%s',
+                            $this->base_uri, $layer, $entity->findTitle(), $output_type
+                        );
+                        $resource['rights'] = $parsable_response->findAccessRights();
+
+                        $data['resources'][] = $resource;
+                    }
+
+                    $harvest_result = new HarvestResult();
+                    $harvest_result->setResult($data);
+
+                    $harvest[] = $harvest_result;
+                }
             }
 
             return $harvest;
