@@ -17,7 +17,7 @@ class GeoserverDataSourceManagerTest extends TestCase
         $this->assertFalse($manager->isInitialized());
     }
 
-    public function testInitializeThrowsExceptionWhithoutAFileSystemHelper(): void
+    public function testInitializeThrowsExceptionWithoutAFileSystemHelper(): void
     {
         $manager = new GeoserverDataSourceManager();
 
@@ -287,10 +287,7 @@ class GeoserverDataSourceManagerTest extends TestCase
                     {
                         "harvesting_frequency":         "daily",
                         "base_uri":                     "https://services.nijmegen.nl",
-                        "layers":                       [
-                                                            "extern_kaartviewer",
-                                                            "extern_milieu"
-                                                        ],
+                        "layers_uri":                   "https://nijmegen-acc.textinfo.nl/nijmegensync/geoserver-workspaces",
                         "defaults_file_path":           "defaults.json",
                         "blacklist_mappings_file_path": "blacklist_mappings.json",
                         "whitelist_mappings_file_path": "whitelist_mappings.json"
@@ -324,10 +321,7 @@ class GeoserverDataSourceManagerTest extends TestCase
                         "name":                         "geoserver",
                         "harvesting_frequency":         "daily",
                         "base_uri":                     "https://services.nijmegen.nl",
-                        "layers":                       [
-                                                            "extern_kaartviewer",
-                                                            "extern_milieu"
-                                                        ],
+                        "layers_uri":                   "https://nijmegen-acc.textinfo.nl/nijmegensync/geoserver-workspaces",
                         "defaults_file_path":           "defaults.json",
                         "blacklist_mappings_file_path": "blacklist_mappings.json",
                         "whitelist_mappings_file_path": "whitelist_mappings.json"
@@ -361,10 +355,7 @@ class GeoserverDataSourceManagerTest extends TestCase
                         "name":                         "geoserver",
                         "harvesting_frequency":         "yearly",
                         "base_uri":                     "https://services.nijmegen.nl",
-                        "layers":                       [
-                                                            "extern_kaartviewer",
-                                                            "extern_milieu"
-                                                        ],
+                        "layers_uri":                   "https://nijmegen-acc.textinfo.nl/nijmegensync/geoserver-workspaces",
                         "defaults_file_path":           "defaults.json",
                         "value_mappings_file_path":     "value_mappings.json",
                         "blacklist_mappings_file_path": "blacklist_mappings.json",
@@ -399,10 +390,7 @@ class GeoserverDataSourceManagerTest extends TestCase
                         "name":                         "geoserver",
                         "harvesting_frequency":         "daily",
                         "base_uri":                     "https://services.nijmegen.nl",
-                        "layers":                       [
-                                                            "extern_kaartviewer",
-                                                            "extern_milieu"
-                                                        ],
+                        "layers_uri":                   "https://nijmegen-acc.textinfo.nl/nijmegensync/geoserver-workspaces",
                         "defaults_file_path":           "defaults.json",
                         "value_mappings_file_path":     "value_mappings.json",
                         "blacklist_mappings_file_path": "blacklist_mappings.json",

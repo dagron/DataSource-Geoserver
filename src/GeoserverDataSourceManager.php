@@ -42,8 +42,8 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
     /** @var string */
     protected $base_uri;
 
-    /** @var string[] */
-    protected $layers;
+    /** @var string */
+    protected $layers_uri;
 
     /** @var GeoserverDataSourceHarvester */
     protected $harvester;
@@ -76,7 +76,7 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
             $settings_file     = \sprintf('%s/%s', __DIR__, '../var/settings.json');
             $settings_contents = $this->file_system_helper->readFile($settings_file);
             $settings_json     = \json_decode($settings_contents, true);
-            $settings_keys     = ['name', 'harvesting_frequency', 'base_uri', 'layers'];
+            $settings_keys     = ['name', 'harvesting_frequency', 'base_uri', 'layers_uri'];
 
             foreach ($settings_keys as $key) {
                 if (!\array_key_exists($key, $settings_json)) {
@@ -111,6 +111,7 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
 
             $this->harvester = new GeoserverDataSourceHarvester();
             $this->harvester->setBaseURI($this->base_uri);
+            $this->harvester->setLayersURI($this->layers_uri);
 
             $this->is_initialized = true;
         } catch (IOException $e) {

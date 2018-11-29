@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use NijmegenSync\Contracts\IAuthenticationDetails;
 use NijmegenSync\DataSource\Harvesting\DataSourceUnavailableHarvestingException;
+use NijmegenSync\DataSource\Harvesting\HarvestingException;
 use NijmegenSync\DataSource\Harvesting\HarvestResult;
 use NijmegenSync\DataSource\Harvesting\IDataSourceHarvester;
 
@@ -19,6 +20,9 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
 {
     /** @var string */
     protected $base_uri;
+
+    /** @var string */
+    protected $layers_uri;
 
     /** @var string[] */
     protected $layers;
@@ -73,23 +77,23 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
     }
 
     /**
-     * Setter for the layers property.
+     * Setter for the layers_uri property.
      *
-     * @param string[] $layers The value to set
+     * @param string $layers_uri The value to set
      */
-    public function setLayers(array $layers): void
+    public function setLayersURI(string $layers_uri): void
     {
-        $this->layers = $layers;
+        $this->layers_uri = $layers_uri;
     }
 
     /**
      * Getter for the layers property, may return an empty array.
      *
-     * @return string[] The layers property
+     * @return string The layers property
      */
-    public function getLayers(): array
+    public function getLayersURI(): string
     {
-        return $this->layers;
+        return $this->layers_uri;
     }
 
     /**
@@ -97,6 +101,7 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
      */
     public function harvest(): array
     {
+        $this->loadLayers();
         $client  = new Client(['base_uri' => $this->base_uri]);
         $harvest = [];
 
@@ -166,6 +171,34 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
             return $harvest;
         } catch (GuzzleException $e) {
             throw new DataSourceUnavailableHarvestingException($e);
+        }
+    }
+
+    /**
+     * Loads the defined layers from the Drupal taxonomy on the Nijmegen portal.
+     *
+     * @throws HarvestingException Thrown if the layers_uri cannot be reached
+     */
+    private function loadLayers(): void
+    {
+        try {
+            $client  = new Client();
+            $request = $client->request('GET', $this->layers_uri);
+
+            $response_as_xml = new \DOMDocument();
+            @$response_as_xml->loadHTML($request->getBody());
+
+            $traversable_xml = new \DOMXPath($response_as_xml);
+            $workspaces      = $traversable_xml->query('//li[@class="geoserver-workspace"]/a');
+
+            foreach ($workspaces as $workspace) {
+                /* @var $workspace \DOMNode */
+                $this->layers[] = $workspace->nodeValue;
+            }
+
+            var_dump($this->layers);
+        } catch (GuzzleException $e) {
+            throw new HarvestingException('unable to determine layers to harvest');
         }
     }
 }

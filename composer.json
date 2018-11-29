@@ -56,6 +56,7 @@
     "require": {
         "php": "^7.2",
         "ext-json": "*",
+        "ext-dom": "*",
         "ext-simplexml": "*",
         "guzzlehttp/guzzle": "^6.2",
         "NijmegenSync/Shared": "dev-master",
