@@ -115,57 +115,113 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
 
     /**
      * {@inheritdoc}
+     *
+     * @throws InitializationException Thrown if the module has not been initialized yet
      */
     public function getName(): string
     {
+        if (!$this->is_initialized) {
+            throw new InitializationException(
+                'cannot retrieve name, module has not been initialized'
+            );
+        }
+
         return $this->name;
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @throws InitializationException Thrown if the module has not been initialized yet
      */
     public function getHarvestingFrequency(): string
     {
+        if (!$this->is_initialized) {
+            throw new InitializationException(
+                'cannot retrieve harvesting_frequency, module has not been initialized'
+            );
+        }
+
         return $this->harvesting_frequency;
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @throws InitializationException Thrown if the module has not been initialized yet
      */
     public function getHarvester(): IDataSourceHarvester
     {
+        if (!$this->is_initialized) {
+            throw new InitializationException(
+                'cannot retrieve harvester, module has not been initialized'
+            );
+        }
+
         return $this->harvester;
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @throws InitializationException Thrown if the module has not been initialized yet
      */
     public function getDefaultsFilePath(): string
     {
+        if (!$this->is_initialized) {
+            throw new InitializationException(
+                'cannot retrieve defaults_file_path, module has not been initialized'
+            );
+        }
+
         return $this->defaults_file_path;
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @throws InitializationException Thrown if the module has not been initialized yet
      */
     public function getValueMappingFilePath(): string
     {
+        if (!$this->is_initialized) {
+            throw new InitializationException(
+                'cannot retrieve value_mappings_file_path, module has not been initialized'
+            );
+        }
+
         return $this->value_mappings_file_path;
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @throws InitializationException Thrown if the module has not been initialized yet
      */
     public function getBlacklistMappingFilePath(): string
     {
+        if (!$this->is_initialized) {
+            throw new InitializationException(
+                'cannot retrieve blacklist_mappings_file_path, module has not been initialized'
+            );
+        }
+
         return $this->blacklist_mappings_file_path;
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @throws InitializationException Thrown if the module has not been initialized yet
      */
     public function getWhitelistMappingFilePath(): string
     {
+        if (!$this->is_initialized) {
+            throw new InitializationException(
+                'cannot retrieve whitelist_mappings_file_path, module has not been initialized'
+            );
+        }
+
         return $this->whitelist_mappings_file_path;
     }
 
