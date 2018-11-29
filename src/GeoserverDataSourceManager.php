@@ -13,6 +13,11 @@ use NijmegenSync\Exception\IOException;
 
 /**
  * Class GeoserverDataSourceManager.
+ *
+ * Manager for the module responsible for harvesting the potential datasets from the Nijmegen
+ * geoserver.
+ *
+ * For most of its settings the manager relies on the `var/settings.json` file.
  */
 class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IDataSourceManager
 {
