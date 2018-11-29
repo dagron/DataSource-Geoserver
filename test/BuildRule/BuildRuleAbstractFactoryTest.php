@@ -11,6 +11,7 @@ class BuildRuleAbstractFactoryTest extends TestCase
     {
         $build_rules = BuildRuleAbstractFactory::getAll();
 
-        $this->assertTrue(\array_key_exists('description', $build_rules));
+        $this->assertArrayHasKey('_before', $build_rules);
+        $this->assertArrayHasKey('description', $build_rules);
     }
 }
