@@ -114,7 +114,7 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
 
             $this->is_initialized = true;
         } catch (IOException $e) {
-            throw new InitializationException($e);
+            throw new InitializationException();
         }
     }
 
