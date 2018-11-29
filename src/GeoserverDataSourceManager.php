@@ -25,6 +25,9 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
     protected $name;
 
     /** @var string */
+    protected $web_address;
+
+    /** @var string */
     protected $harvesting_frequency;
 
     /** @var string */
@@ -76,7 +79,7 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
             $settings_file     = \sprintf('%s/%s', __DIR__, '../var/settings.json');
             $settings_contents = $this->file_system_helper->readFile($settings_file);
             $settings_json     = \json_decode($settings_contents, true);
-            $settings_keys     = ['name', 'harvesting_frequency', 'base_uri', 'layers_uri'];
+            $settings_keys     = ['name', 'web_address', 'harvesting_frequency', 'base_uri', 'layers_uri'];
 
             foreach ($settings_keys as $key) {
                 if (!\array_key_exists($key, $settings_json)) {
@@ -133,6 +136,22 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
         }
 
         return $this->name;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws InitializationException Thrown if the module has not been initialized yet
+     */
+    public function getWebAddress(): string
+    {
+        if (!$this->is_initialized) {
+            throw new InitializationException(
+                'cannot retrieve web_address, module has not been initialized'
+            );
+        }
+
+        return $this->web_address;
     }
 
     /**

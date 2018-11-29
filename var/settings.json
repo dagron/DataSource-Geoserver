@@ -1,5 +1,6 @@
 {
     "name":                         "geoserver",
+    "web_address":                  "https://services.nijmegen.nl/geoserver/",
     "harvesting_frequency":         "daily",
     "base_uri":                     "https://services.nijmegen.nl",
     "layers_uri":                   "https://nijmegen-acc.textinfo.nl/nijmegensync/geoserver-workspaces",

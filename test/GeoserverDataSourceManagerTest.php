@@ -49,6 +49,22 @@ class GeoserverDataSourceManagerTest extends TestCase
         }
     }
 
+    public function testThrowsExceptionWhenGettingWebAddressWithoutInitialize(): void
+    {
+        $manager = new GeoserverDataSourceManager();
+
+        try {
+            $manager->getWebAddress();
+
+            $this->fail('failed to throw exception when module is not initialized');
+        } catch (InitializationException $e) {
+            $this->assertSame(
+                'cannot retrieve web_address, module has not been initialized',
+                $e->getMessage()
+            );
+        }
+    }
+
     public function testThrowsExceptionWhenGettingHarvestingFrequencyWithoutInitialize(): void
     {
         $manager = new GeoserverDataSourceManager();
@@ -319,6 +335,7 @@ class GeoserverDataSourceManagerTest extends TestCase
                 return '
                     {
                         "name":                         "geoserver",
+                        "web_address":                  "https://services.nijmegen.nl/geoserver/",
                         "harvesting_frequency":         "daily",
                         "base_uri":                     "https://services.nijmegen.nl",
                         "layers_uri":                   "https://nijmegen-acc.textinfo.nl/nijmegensync/geoserver-workspaces",
@@ -353,6 +370,7 @@ class GeoserverDataSourceManagerTest extends TestCase
                 return '
                     {
                         "name":                         "geoserver",
+                        "web_address":                  "https://services.nijmegen.nl/geoserver/",
                         "harvesting_frequency":         "yearly",
                         "base_uri":                     "https://services.nijmegen.nl",
                         "layers_uri":                   "https://nijmegen-acc.textinfo.nl/nijmegensync/geoserver-workspaces",
@@ -388,6 +406,7 @@ class GeoserverDataSourceManagerTest extends TestCase
                 return '
                     {
                         "name":                         "geoserver",
+                        "web_address":                  "https://services.nijmegen.nl/geoserver/",
                         "harvesting_frequency":         "daily",
                         "base_uri":                     "https://services.nijmegen.nl",
                         "layers_uri":                   "https://nijmegen-acc.textinfo.nl/nijmegensync/geoserver-workspaces",
