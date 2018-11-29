@@ -32,7 +32,22 @@ class DatasetDescriptionBuildRule implements IDatasetBuildRule
             \sprintf('%s/%s', __DIR__, '../../var/description_template.tpl')
         );
 
-        $dataset->setDescription(new DCATLiteral(\sprintf($template, $data['title'])));
+        $layers = '';
+
+        foreach ($data['geoserver_layers'] as $layer) {
+            $layers = \sprintf(
+                '%s%s%s',
+                $layers,
+                PHP_EOL,
+                \sprintf(
+                    ' - [%s](%s)',
+                    \sprintf('services.nijmegen.nl/geoserver/%s/wfs?', $layer),
+                    \sprintf('https://services.nijmegen.nl/geoserver/%s/wfs?', $layer)
+                )
+            );
+        }
+
+        $dataset->setDescription(new DCATLiteral(\sprintf($template, $data['title'], $layers)));
         $notices[] = 'Description: No description found, using description template';
     }
 }

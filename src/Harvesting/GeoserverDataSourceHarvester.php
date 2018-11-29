@@ -128,6 +128,7 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
 
                 foreach ($parsable_response->getAllEntities() as $entity) {
                     $data                        = [];
+                    $data['geoserver_layers']    = $this->layers;
                     $data['title']               = \str_replace('_', ' ', $entity->findTitle());
                     $data['description']         = $entity->findAbstract();
                     $data['contact_point_email'] = $parsable_response->findContactEmail();
