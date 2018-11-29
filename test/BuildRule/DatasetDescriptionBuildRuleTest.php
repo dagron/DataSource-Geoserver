@@ -12,10 +12,12 @@ class DatasetDescriptionBuildRuleTest extends TestCase
     {
         $dataset = new DCATDataset();
         $builder = new DatasetDescriptionBuildRule();
+        $data    = ['title' => 'test'];
+        $notices = [];
 
         $this->assertNull($dataset->getDescription());
 
-        $builder->applyRule($dataset, ['title' => 'test'], [], [], [], []);
+        $builder->applyRule($dataset, $data, [], [], [], [], $notices);
 
         $this->assertNotNull($dataset->getDescription());
     }
