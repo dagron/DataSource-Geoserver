@@ -40,8 +40,7 @@ class DatasetDescriptionBuildRule implements IDatasetBuildRule
                 $layers,
                 PHP_EOL,
                 \sprintf(
-                    ' - [%s](%s)',
-                    \sprintf('services.nijmegen.nl/geoserver/%s/wfs?', $layer),
+                    ' - %s',
                     \sprintf('https://services.nijmegen.nl/geoserver/%s/wfs?', $layer)
                 )
             );
