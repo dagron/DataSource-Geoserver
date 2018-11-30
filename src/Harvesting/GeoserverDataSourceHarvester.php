@@ -196,8 +196,6 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
                 /* @var $workspace \DOMNode */
                 $this->layers[] = $workspace->nodeValue;
             }
-
-            var_dump($this->layers);
         } catch (GuzzleException $e) {
             throw new HarvestingException('unable to determine layers to harvest');
         }
