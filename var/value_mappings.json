@@ -1,4 +1,7 @@
 {
+    "accessRights": {
+        "NONE": "http://publications.europa.eu/resource/authority/access-right/PUBLIC"
+    },
     "resource.title": {
         "csv": "CSV",
         "gml32": "GML 3.2",
