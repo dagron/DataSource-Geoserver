@@ -143,8 +143,8 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
                         $parsable_response->findContactName(),
                         $parsable_response->findContactOrganization()
                     );
-                    $data['accessRights']  = $parsable_response->findAccessRights();
-                    $data['keyword'][]     = \array_merge(
+                    $data['accessRights'] = $parsable_response->findAccessRights();
+                    $data['keyword']      = \array_merge(
                         $entity->findGlobalKeywords(),
                         $entity->findKeywords()
                     );
