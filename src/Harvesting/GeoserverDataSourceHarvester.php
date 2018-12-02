@@ -135,13 +135,15 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
                     );
                     $data['title']               = \str_replace('_', ' ', $entity->findTitle());
                     $data['description']         = $entity->findAbstract();
+                    $data['modificationDate']    = (new \DateTime('now', new \DateTimeZone('Europe/Amsterdam')))
+                        ->format('Y-m-d\TH:i:s');
                     $data['contact_point_email'] = $parsable_response->findContactEmail();
                     $data['contact_point_name']  = \sprintf(
                         '%s, %s',
                         $parsable_response->findContactName(),
                         $parsable_response->findContactOrganization()
                     );
-                    $data['access_rights'] = $parsable_response->findAccessRights();
+                    $data['accessRights'] = $parsable_response->findAccessRights();
                     $data['keyword'][]     = \array_merge(
                         $entity->findGlobalKeywords(),
                         $entity->findKeywords()
@@ -157,7 +159,7 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
                             '%s/geoserver/%s/wfs?service=WFS&request=GetFeature&typeName=%s',
                             $this->base_uri, $layer, $entity->findTitle()
                         );
-                        $resource['download_url'][] = \sprintf(
+                        $resource['downloadUrl'][] = \sprintf(
                             '%s/geoserver/%s/wfs?service=WFS&request=GetFeature&typeName=%s&outputFormat=%s',
                             $this->base_uri, $layer, $entity->findTitle(), $output_type
                         );
