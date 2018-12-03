@@ -6,7 +6,7 @@
         "KML",
         "SHAPE-ZIP"
     ],
-    "resource.mediatype": [
+    "resource.mediaType": [
         "csv",
         "gml32",
         "json",

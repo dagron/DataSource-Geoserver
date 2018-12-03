@@ -23,7 +23,7 @@
         "KML": "http://publications.europa.eu/resource/authority/file-type/KML",
         "SHAPE-ZIP": "http://publications.europa.eu/resource/authority/file-type/ZIP"
     },
-    "resource.mimetype": {
+    "resource.mediaType": {
         "csv": "https://www.iana.org/assignments/media-types/text/csv",
         "gml32": "https://www.iana.org/assignments/media-types/application/gml+xml",
         "json": "https://www.iana.org/assignments/media-types/application/geo+json",
