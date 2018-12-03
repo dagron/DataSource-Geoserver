@@ -155,11 +155,11 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
                         $resource['description'] = $output_type;
                         $resource['format']      = $output_type;
                         $resource['mediaType']   = $output_type;
-                        $resource['url']         = \sprintf(
+                        $resource['accessURL']   = \sprintf(
                             '%s/geoserver/%s/wfs?service=WFS&request=GetFeature&typeName=%s',
                             $this->base_uri, $layer, $entity->findTitle()
                         );
-                        $resource['downloadUrl'][] = \sprintf(
+                        $resource['downloadURL'][] = \sprintf(
                             '%s/geoserver/%s/wfs?service=WFS&request=GetFeature&typeName=%s&outputFormat=%s',
                             $this->base_uri, $layer, $entity->findTitle(), $output_type
                         );
