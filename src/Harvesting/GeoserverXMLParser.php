@@ -210,7 +210,7 @@ class GeoserverXMLParser
     public function findSupportedOutputTypes(): array
     {
         $elements = $this->xml->xpath(
-            '//ows:OperationsMetadata/ows:Operation[@name="GetFeature"]/ows:Parameter[@name="outputFormat"]/ows:AllowedValues/ows:Value'
+            '//ows:OperationsMetadata/ows:Operation[@name="GetFeature"]/ows:Parameter[@name="outputFormat"]/ows:Value'
         );
         $formats = [];
 
