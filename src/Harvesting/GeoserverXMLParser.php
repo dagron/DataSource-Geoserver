@@ -50,6 +50,24 @@ class GeoserverXMLParser
     }
 
     /**
+     * Finds and returns the name of a FeatureType, will return an empty string if nothing is found.
+     *
+     * @return string The name of the FeatureType
+     */
+    public function findName(): string
+    {
+        $children = $this->xml->children();
+
+        foreach ($children as $child) {
+            if ('Name' == $child->getName()) {
+                return \substr(\strval($child), \strpos(\strval($child), ':'));
+            }
+        }
+
+        return '';
+    }
+
+    /**
      * Finds and returns the title of a FeatureType, will return an empty string if nothing is found.
      *
      * @return string The title of the FeatureType

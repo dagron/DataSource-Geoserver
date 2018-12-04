@@ -131,9 +131,9 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
                     $data['geoserver_layers']    = $this->layers;
                     $data['identifier']          = \sprintf(
                         '%s/geoservices/%s/ows?service=WFS&request=GetFeature&typeName=%s',
-                        $this->base_uri, $layer, $entity->findTitle()
+                        $this->base_uri, $layer, $entity->findName()
                     );
-                    $data['title']               = \str_replace('_', ' ', $entity->findTitle());
+                    $data['title']               = \ucfirst(\strtolower(\str_replace('_', ' ', $entity->findTitle())));
                     $data['description']         = $entity->findAbstract();
                     $data['modificationDate']    = (new \DateTime('now', new \DateTimeZone('Europe/Amsterdam')))
                         ->format('Y-m-d\TH:i:s');
@@ -157,11 +157,11 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
                         $resource['mediaType']   = $output_type;
                         $resource['accessURL']   = \sprintf(
                             '%s/geoservices/%s/ows?service=WFS&request=GetFeature&typeName=%s',
-                            $this->base_uri, $layer, $entity->findTitle()
+                            $this->base_uri, $layer, $entity->findName()
                         );
                         $resource['downloadURL'][] = \sprintf(
                             '%s/geoservices/%s/ows?service=WFS&request=GetFeature&typeName=%s&outputFormat=%s',
-                            $this->base_uri, $layer, $entity->findTitle(), \urlencode($output_type)
+                            $this->base_uri, $layer, $entity->findName(), \urlencode($output_type)
                         );
                         $resource['rights'] = $parsable_response->findAccessRights();
 
