@@ -60,7 +60,7 @@ class GeoserverXMLParser
 
         foreach ($children as $child) {
             if ('Name' == $child->getName()) {
-                return \substr(\strval($child), \strpos(\strval($child), ':'));
+                return \substr(\strval($child), \strpos(\strval($child), ':') + 1);
             }
         }
 
