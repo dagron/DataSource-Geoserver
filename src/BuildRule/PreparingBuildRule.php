@@ -22,6 +22,19 @@ class PreparingBuildRule implements IDatasetBuildRule
     /** @var string */
     private static $END_PATTERN = ']';
 
+    /** @var string */
+    private $key;
+
+    /**
+     * PreparingBuildRule constructor.
+     *
+     * @param string $key The key of the build rule
+     */
+    public function __construct(string $key)
+    {
+        $this->key = $key;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -30,49 +43,164 @@ class PreparingBuildRule implements IDatasetBuildRule
                               array $whitelist_mappers, array &$notices, string $prefix): void
     {
         if (!isset($data['description'])) {
-            $notices[] = \sprintf('%s No description harvested, skipping theme extraction', $prefix);
+            $notices[] = \sprintf(
+                '%s %s: No description harvested, skipping metadata extraction',
+                $prefix, $this->key
+            );
 
             return;
         }
 
-        $description = $data['description'];
-
-        if (null == $description || '' == \trim($description)) {
-            $notices[] = \sprintf('%s No description harvested, skipping theme extraction', $prefix);
-
-            return;
-        }
-
-        if (\substr($description, 0, \strlen(self::$START_PATTERN)) !== self::$START_PATTERN) {
-            $notices[] = \sprintf('%s Harvested description does not contain Theme pattern, skipping theme extraction', $prefix);
+        if (null == $data['description'] || '' == \trim($data['description'])) {
+            $notices[] = \sprintf(
+                '%s %s: No description harvested, skipping metadata extraction',
+                $prefix, $this->key
+            );
 
             return;
         }
 
-        if (false === \strpos($description, ']')) {
-            $notices[] = \sprintf('%s Could not extract themes from harvested description, no closing pattern found', $prefix);
+        $title  = $this->extractTitle($data['description'], $notices, $prefix);
+        $themes = $this->extractThemes($data['description'], $notices, $prefix);
 
-            return;
+        if (null !== $title) {
+            $data['title'] = $title;
         }
 
-        $extracted_themes = \explode(
-            ',',
+        $data['theme'] = $themes;
+    }
+
+    private function extractTitle(string &$description, array &$notices, $prefix): ?string
+    {
+        $notices[] = \sprintf(
+            '%s %s: Attempting title metadata extraction',
+            $prefix, $this->key
+        );
+        $starting_pattern = '[Title:';
+        $ending_pattern   = ']';
+
+        $starting_pattern_present = \strpos($description, $starting_pattern);
+
+        if (false === $starting_pattern_present) {
+            $notices[] = \sprintf(
+                '%s %s: Title starting pattern not present, skipping',
+                $prefix, $this->key
+            );
+
+            return null;
+        }
+
+        $ending_pattern_present = \strpos($description, $ending_pattern, $starting_pattern_present);
+
+        if (false === $ending_pattern_present) {
+            $notices[] = \sprintf(
+                '%s %s: Title closing pattern not present, skipping',
+                $prefix, $this->key
+            );
+
+            return null;
+        }
+
+        $title = \substr(
+            $description,
+            $starting_pattern_present + \strlen($starting_pattern),
+            $ending_pattern_present - ($starting_pattern_present + \strlen($starting_pattern))
+        );
+
+        if (false === $title) {
+            $notices[] = \sprintf(
+                '%s %s: Failed to extract title from harvested description',
+                $prefix, $this->key
+            );
+
+            return null;
+        }
+
+        $description = \str_replace(
             \substr(
                 $description,
-                \strlen(self::$START_PATTERN),
-                \strlen($description) - \strpos($description, self::$END_PATTERN) + 1
-            )
-        );
-        $data['description'] = \substr(
-            $description, \strpos($description, self::$END_PATTERN) + 1
+                $starting_pattern_present,
+                $ending_pattern_present - $starting_pattern_present + 1
+            ),
+            '',
+            $description
         );
 
-        foreach ($extracted_themes as $theme) {
-            $data['theme'][] = \ltrim(\rtrim($theme));
+        $notices[] = \sprintf(
+            '%s %s: Extracted title %s from harvested description',
+            $prefix, $this->key, $title
+        );
+
+        return \trim($title);
+    }
+
+    private function extractThemes(string &$description, array &$notices, $prefix): array
+    {
+        $notices[] = \sprintf(
+            '%s %s: Attempting theme metadata extraction',
+            $prefix, $this->key
+        );
+        $starting_pattern = '[Thema:';
+        $ending_pattern   = ']';
+
+        $starting_pattern_present = \strpos($description, $starting_pattern);
+
+        if (false === $starting_pattern_present) {
+            $notices[] = \sprintf(
+                '%s %s: Theme starting pattern not present, skipping',
+                $prefix, $this->key
+            );
+
+            return [];
+        }
+
+        $ending_pattern_present = \strpos($description, $ending_pattern, $starting_pattern_present);
+
+        if (false === $ending_pattern_present) {
+            $notices[] = \sprintf(
+                '%s %s: Theme closing pattern not present, skipping',
+                $prefix, $this->key
+            );
+
+            return [];
+        }
+
+        $themes = \substr(
+            $description,
+            $starting_pattern_present + \strlen($starting_pattern),
+            $ending_pattern_present - ($starting_pattern_present + \strlen($starting_pattern))
+        );
+
+        if (false === $themes) {
+            $notices[] = \sprintf(
+                '%s %s: Failed to extract themes from harvested description',
+                $prefix, $this->key
+            );
+
+            return [];
+        }
+
+        $description = \str_replace(
+            \substr(
+                $description,
+                $starting_pattern_present,
+                $ending_pattern_present - $starting_pattern_present + 1
+            ),
+            '',
+            $description
+        );
+
+        $themes = \explode(',', $themes);
+
+        for ($i = 0; $i < \count($themes); ++$i) {
+            $themes[$i] = \trim($themes[$i]);
         }
 
         $notices[] = \sprintf(
-            '%s Extracted %d themes from harvested description', $prefix, \count($data['theme'])
+            '%s %s: Extracted %s theme(s) from harvested description',
+            $prefix, $this->key, \count($themes)
         );
+
+        return $themes;
     }
 }

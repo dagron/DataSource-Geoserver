@@ -14,6 +14,19 @@ use NijmegenSync\Dataset\Builder\IDatasetBuildRule;
  */
 class DatasetDescriptionBuildRule implements IDatasetBuildRule
 {
+    /** @var string */
+    private $key;
+
+    /**
+     * PreparingBuildRule constructor.
+     *
+     * @param string $key The key of the build rule
+     */
+    public function __construct(string $key)
+    {
+        $this->key = $key;
+    }
+
     /**
      * {@inheritdoc}
      */

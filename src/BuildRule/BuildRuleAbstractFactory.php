@@ -19,8 +19,8 @@ class BuildRuleAbstractFactory
     public static function getAll(): array
     {
         return [
-            '_before'     => new PreparingBuildRule(),
-            'description' => new DatasetDescriptionBuildRule(),
+            '_before'     => new PreparingBuildRule('_before'),
+            'description' => new DatasetDescriptionBuildRule('Description'),
         ];
     }
 }

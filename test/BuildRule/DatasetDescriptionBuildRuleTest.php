@@ -12,7 +12,7 @@ class DatasetDescriptionBuildRuleTest extends TestCase
     public function testAddsContentToTheDescriptionProperty(): void
     {
         $dataset = new DCATDataset();
-        $builder = new DatasetDescriptionBuildRule();
+        $builder = new DatasetDescriptionBuildRule('description');
         $data    = ['title' => 'test', 'geoserver_layers' => ['a']];
         $notices = [];
 
@@ -29,7 +29,7 @@ class DatasetDescriptionBuildRuleTest extends TestCase
         $data    = ['title' => 'test', 'description' => 'test'];
         $notices = [];
 
-        $build_rule = new DatasetDescriptionBuildRule();
+        $build_rule = new DatasetDescriptionBuildRule('description');
         $build_rule->applyRule($dataset, $data, [], [], [], [], $notices, 'Dataset:');
 
         $this->assertSame(
