@@ -15,7 +15,7 @@ class PreparingBuildRuleTest extends TestCase
         $notices = [];
 
         $build_rule = new PreparingBuildRule();
-        $build_rule->applyRule($dataset, $data, [], [], [], [], $notices);
+        $build_rule->applyRule($dataset, $data, [], [], [], [], $notices, 'Dataset:');
 
         $this->assertEquals(
             ['title' => 'test'],
@@ -23,7 +23,7 @@ class PreparingBuildRuleTest extends TestCase
         );
 
         $this->assertEquals(
-            [],
+            ['Dataset: No description harvested, skipping theme extraction'],
             $notices
         );
 
@@ -40,7 +40,7 @@ class PreparingBuildRuleTest extends TestCase
         $notices = [];
 
         $build_rule = new PreparingBuildRule();
-        $build_rule->applyRule($dataset, $data, [], [], [], [], $notices);
+        $build_rule->applyRule($dataset, $data, [], [], [], [], $notices, 'Dataset:');
 
         $this->assertEquals(
             ['title' => 'test', 'description' => null],
@@ -48,7 +48,7 @@ class PreparingBuildRuleTest extends TestCase
         );
 
         $this->assertEquals(
-            [],
+            ['Dataset: No description harvested, skipping theme extraction'],
             $notices
         );
 
@@ -65,7 +65,7 @@ class PreparingBuildRuleTest extends TestCase
         $notices = [];
 
         $build_rule = new PreparingBuildRule();
-        $build_rule->applyRule($dataset, $data, [], [], [], [], $notices);
+        $build_rule->applyRule($dataset, $data, [], [], [], [], $notices, 'Dataset:');
 
         $this->assertSame(
             ['title' => 'test', 'description' => ''],
@@ -73,7 +73,7 @@ class PreparingBuildRuleTest extends TestCase
         );
 
         $this->assertEquals(
-            [],
+            ['Dataset: No description harvested, skipping theme extraction'],
             $notices
         );
 
@@ -90,7 +90,7 @@ class PreparingBuildRuleTest extends TestCase
         $notices = [];
 
         $build_rule = new PreparingBuildRule();
-        $build_rule->applyRule($dataset, $data, [], [], [], [], $notices);
+        $build_rule->applyRule($dataset, $data, [], [], [], [], $notices, 'Dataset:');
 
         $this->assertSame(
             ['title' => 'test', 'description' => 'test'],
@@ -98,7 +98,7 @@ class PreparingBuildRuleTest extends TestCase
         );
 
         $this->assertEquals(
-            [],
+            ['Dataset: Harvested description does not contain Theme pattern, skipping theme extraction'],
             $notices
         );
 
@@ -115,7 +115,7 @@ class PreparingBuildRuleTest extends TestCase
         $notices = [];
 
         $build_rule = new PreparingBuildRule();
-        $build_rule->applyRule($dataset, $data, [], [], [], [], $notices);
+        $build_rule->applyRule($dataset, $data, [], [], [], [], $notices, 'Dataset:');
 
         $this->assertSame(
             ['title' => 'test', 'description' => '[Thema: asdasdasd'],
@@ -123,7 +123,7 @@ class PreparingBuildRuleTest extends TestCase
         );
 
         $this->assertEquals(
-            ['could not extract themes from harvested description, no ] character found'],
+            ['Dataset: Could not extract themes from harvested description, no closing pattern found'],
             $notices
         );
 
@@ -140,7 +140,7 @@ class PreparingBuildRuleTest extends TestCase
         $notices = [];
 
         $build_rule = new PreparingBuildRule();
-        $build_rule->applyRule($dataset, $data, [], [], [], [], $notices);
+        $build_rule->applyRule($dataset, $data, [], [], [], [], $notices, 'Dataset:');
 
         $this->assertSame(
             ['title' => 'test', 'description' => 'asd', 'theme' => ['test']],
@@ -148,7 +148,7 @@ class PreparingBuildRuleTest extends TestCase
         );
 
         $this->assertSame(
-            ['extracted 1 themes from harvested description'],
+            ['Dataset: Extracted 1 themes from harvested description'],
             $notices
         );
     }

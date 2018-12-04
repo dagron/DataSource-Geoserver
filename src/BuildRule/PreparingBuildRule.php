@@ -27,24 +27,30 @@ class PreparingBuildRule implements IDatasetBuildRule
      */
     public function applyRule(DCATDataset &$dataset, array &$data, array $defaults,
                               array $value_mappers, array $blacklist_mappers,
-                              array $whitelist_mappers, array &$notices): void
+                              array $whitelist_mappers, array &$notices, string $prefix): void
     {
         if (!isset($data['description'])) {
+            $notices[] = \sprintf('%s No description harvested, skipping theme extraction', $prefix);
+
             return;
         }
 
         $description = $data['description'];
 
         if (null == $description || '' == \trim($description)) {
+            $notices[] = \sprintf('%s No description harvested, skipping theme extraction', $prefix);
+
             return;
         }
 
         if (\substr($description, 0, \strlen(self::$START_PATTERN)) !== self::$START_PATTERN) {
+            $notices[] = \sprintf('%s Harvested description does not contain Theme pattern, skipping theme extraction', $prefix);
+
             return;
         }
 
         if (false === \strpos($description, ']')) {
-            $notices[] = 'could not extract themes from harvested description, no ] character found';
+            $notices[] = \sprintf('%s Could not extract themes from harvested description, no closing pattern found', $prefix);
 
             return;
         }
@@ -66,7 +72,7 @@ class PreparingBuildRule implements IDatasetBuildRule
         }
 
         $notices[] = \sprintf(
-            'extracted %d themes from harvested description', \count($data['theme'])
+            '%s Extracted %d themes from harvested description', $prefix, \count($data['theme'])
         );
     }
 }

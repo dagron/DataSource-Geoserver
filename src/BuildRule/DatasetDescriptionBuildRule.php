@@ -19,11 +19,11 @@ class DatasetDescriptionBuildRule implements IDatasetBuildRule
      */
     public function applyRule(DCATDataset &$dataset, array &$data, array $defaults,
                               array $value_mappers, array $blacklist_mappers,
-                              array $whitelist_mappers, array &$notices): void
+                              array $whitelist_mappers, array &$notices, string $prefix): void
     {
         if (isset($data['description']) && '' !== \trim($data['description'])) {
             $dataset->setDescription(new DCATLiteral($data['description']));
-            $notices[] = 'Description: using description found in geoserver';
+            $notices[] = \sprintf('%s Description: using description found in geoserver', $prefix);
 
             return;
         }
@@ -47,6 +47,6 @@ class DatasetDescriptionBuildRule implements IDatasetBuildRule
         }
 
         $dataset->setDescription(new DCATLiteral(\sprintf($template, $data['title'], $layers)));
-        $notices[] = 'Description: No description found, using description template';
+        $notices[] = \sprintf('%s Description: No description found, using description template', $prefix);
     }
 }
