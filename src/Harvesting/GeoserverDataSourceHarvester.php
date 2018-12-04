@@ -109,7 +109,7 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
             foreach ($this->layers as $layer) {
                 $request = $client->request(
                     'GET',
-                    \sprintf('/geoservices/%s/wfs?service=WFS&request=GetCapabilities', $layer),
+                    \sprintf('/geoservices/%s/ows?service=WFS&request=GetCapabilities', $layer),
                     [
                         'accept' => 'application/xml',
                     ]
@@ -130,7 +130,7 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
                     $data                        = [];
                     $data['geoserver_layers']    = $this->layers;
                     $data['identifier']          = \sprintf(
-                        '%s/geoserver/%s/wfs?service=WFS&request=GetFeature&typeName=%s',
+                        '%s/geoservices/%s/ows?service=WFS&request=GetFeature&typeName=%s',
                         $this->base_uri, $layer, $entity->findTitle()
                     );
                     $data['title']               = \str_replace('_', ' ', $entity->findTitle());
@@ -156,12 +156,12 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
                         $resource['format']      = $output_type;
                         $resource['mediaType']   = $output_type;
                         $resource['accessURL']   = \sprintf(
-                            '%s/geoserver/%s/wfs?service=WFS&request=GetFeature&typeName=%s',
+                            '%s/geoservices/%s/ows?service=WFS&request=GetFeature&typeName=%s',
                             $this->base_uri, $layer, $entity->findTitle()
                         );
                         $resource['downloadURL'][] = \sprintf(
-                            '%s/geoserver/%s/wfs?service=WFS&request=GetFeature&typeName=%s&outputFormat=%s',
-                            $this->base_uri, $layer, $entity->findTitle(), $output_type
+                            '%s/geoservices/%s/ows?service=WFS&request=GetFeature&typeName=%s&outputFormat=%s',
+                            $this->base_uri, $layer, $entity->findTitle(), \urlencode($output_type)
                         );
                         $resource['rights'] = $parsable_response->findAccessRights();
 
