@@ -1,8 +1,8 @@
-Dit betreft een geografische dataset, afkomstig uit de Nijmeegse geoserver, met de naam %s.
+Dit betreft de dataset %s, afkomstig uit de Nijmeegse geoserver.
 
-De data van deze dataset is via een Web Feature Service (WFS) geopenbaard. Deze WFS service is bereikbaar via:
+De data van deze dataset is via een Web Feature Service (WFS) toegankelijk. Deze WFS service is bereikbaar via:
 %s
 
-Alle publiek toegankelijk geografische data van de gemeente Nijmegen zijn via deze service realtime te benaderen.
+Alle publiek toegankelijk geografische data van de gemeente Nijmegen is via deze service realtime te benaderen.
 
-Veel van de Nijmeegse geografische datasets zijn ook visueel inzichtelijk gemaakt op [opendata.nijmegen.nl/kaartviewer](https://opendata.nijmegen.nl/kaartviewer/index.php)
+Veel van de Nijmeegse geografische datasets zijn ook visueel inzichtelijk gemaakt op https://opendata.nijmegen.nl/kaartviewer/
