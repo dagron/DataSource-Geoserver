@@ -76,7 +76,7 @@ class PreparingBuildRule implements IDatasetBuildRule
             '%s %s: Attempting title metadata extraction',
             $prefix, $this->key
         );
-        $starting_pattern = '[Title:';
+        $starting_pattern = '[Titel:';
         $ending_pattern   = ']';
 
         $starting_pattern_present = \strpos($description, $starting_pattern);
