@@ -116,22 +116,26 @@ class PreparingBuildRule implements IDatasetBuildRule
             return null;
         }
 
-        $description = \str_replace(
-            \substr(
-                $description,
-                $starting_pattern_present,
-                $ending_pattern_present - $starting_pattern_present + 1
-            ),
-            '',
-            $description
+        $description = \ltrim(
+            \str_replace(
+                \substr(
+                    $description,
+                    $starting_pattern_present,
+                    $ending_pattern_present - $starting_pattern_present + 1
+                ),
+                '',
+                $description
+            )
         );
+
+        $title = \trim($title);
 
         $notices[] = \sprintf(
             '%s %s: Extracted title %s from harvested description',
             $prefix, $this->key, $title
         );
 
-        return \trim($title);
+        return $title;
     }
 
     private function extractThemes(string &$description, array &$notices, $prefix): array
@@ -180,14 +184,16 @@ class PreparingBuildRule implements IDatasetBuildRule
             return [];
         }
 
-        $description = \str_replace(
-            \substr(
-                $description,
-                $starting_pattern_present,
-                $ending_pattern_present - $starting_pattern_present + 1
-            ),
-            '',
-            $description
+        $description = \ltrim(
+            \str_replace(
+                \substr(
+                    $description,
+                    $starting_pattern_present,
+                    $ending_pattern_present - $starting_pattern_present + 1
+                ),
+                '',
+                $description
+            )
         );
 
         $themes = \explode(',', $themes);
