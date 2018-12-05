@@ -67,7 +67,7 @@ class PreparingBuildRule implements IDatasetBuildRule
             $data['title'] = $title;
         }
 
-        $data['theme'] = $themes;
+        $data['theme'] = \array_values($themes);
     }
 
     private function extractTitle(string &$description, array &$notices, $prefix): ?string
