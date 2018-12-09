@@ -60,7 +60,12 @@ class GeoserverXMLParser
 
         foreach ($children as $child) {
             if ('Name' == $child->getName()) {
-                return \substr(\strval($child), \strpos(\strval($child), ':') + 1);
+                $node_as_string   = \strval($child);
+                $divider_position = \strpos($node_as_string, ':');
+
+                return (false !== $divider_position)
+                    ? \substr($node_as_string, $divider_position + 1)
+                    : $node_as_string;
             }
         }
 

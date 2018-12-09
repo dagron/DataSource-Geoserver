@@ -29,7 +29,7 @@ class DatasetDescriptionBuildRuleTest extends TestCase
         $data    = ['title' => 'test', 'description' => 'test'];
         $notices = [];
 
-        $build_rule = new DatasetDescriptionBuildRule('description');
+        $build_rule = new DatasetDescriptionBuildRule('Description');
         $build_rule->applyRule($dataset, $data, [], [], [], [], $notices, 'Dataset:');
 
         $this->assertSame(
@@ -38,7 +38,7 @@ class DatasetDescriptionBuildRuleTest extends TestCase
         );
 
         $this->assertEquals(
-            ['Dataset: Description: using description found in geoserver'],
+            ['Dataset: Description: Using description found in geoserver'],
             $notices
         );
 

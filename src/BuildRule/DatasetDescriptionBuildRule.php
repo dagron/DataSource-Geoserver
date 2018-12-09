@@ -15,16 +15,22 @@ use NijmegenSync\Dataset\Builder\IDatasetBuildRule;
 class DatasetDescriptionBuildRule implements IDatasetBuildRule
 {
     /** @var string */
-    private $key;
+    private $property;
 
     /**
-     * PreparingBuildRule constructor.
-     *
-     * @param string $key The key of the build rule
+     * {@inheritdoc}
      */
-    public function __construct(string $key)
+    public function __construct(string $property)
     {
-        $this->key = $key;
+        $this->property = $property;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getProperty(): string
+    {
+        return $this->property;
     }
 
     /**
@@ -36,7 +42,10 @@ class DatasetDescriptionBuildRule implements IDatasetBuildRule
     {
         if (isset($data['description']) && '' !== \trim($data['description'])) {
             $dataset->setDescription(new DCATLiteral($data['description']));
-            $notices[] = \sprintf('%s Description: using description found in geoserver', $prefix);
+            $notices[] = \sprintf(
+                '%s %s: Using description found in geoserver',
+                $prefix, $this->property
+            );
 
             return;
         }
@@ -54,12 +63,15 @@ class DatasetDescriptionBuildRule implements IDatasetBuildRule
                 PHP_EOL,
                 \sprintf(
                     ' - %s',
-                    \sprintf('https://services.nijmegen.nl/geoserver/%s/wfs?', $layer)
+                    \sprintf('https://services.nijmegen.nl/geoserver/%s/ows?', $layer)
                 )
             );
         }
 
         $dataset->setDescription(new DCATLiteral(\sprintf($template, $data['title'], $layers)));
-        $notices[] = \sprintf('%s Description: No description found, using description template', $prefix);
+        $notices[] = \sprintf(
+            '%s %s: No description found, using description template',
+            $prefix, $this->property
+        );
     }
 }

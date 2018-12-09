@@ -31,6 +31,24 @@ class GeoserverXMLParserTest extends TestCase
         $this->assertTrue(2 === \count($parser->getAllEntities()));
     }
 
+    public function testReturnsEmptyStringWhenNoNameIsFound(): void
+    {
+        $parser = new GeoserverXMLParser(new \SimpleXMLElement('<root></root>'));
+
+        $this->assertSame('', $parser->findName());
+    }
+
+    public function testReturnsNameWhenNameIsFound(): void
+    {
+        $parser = new GeoserverXMLParser(new \SimpleXMLElement('
+            <root>
+                <Name>test</Name>
+            </root>
+        '));
+
+        $this->assertSame('test', $parser->findName());
+    }
+
     public function testReturnsEmptyStringWhenNoTitleIsFound(): void
     {
         $parser = new GeoserverXMLParser(new \SimpleXMLElement('<root></root>'));

@@ -17,22 +17,22 @@ use NijmegenSync\Dataset\Builder\IDatasetBuildRule;
 class PreparingBuildRule implements IDatasetBuildRule
 {
     /** @var string */
-    private static $START_PATTERN = '[Thema:';
-
-    /** @var string */
-    private static $END_PATTERN = ']';
-
-    /** @var string */
-    private $key;
+    private $property;
 
     /**
-     * PreparingBuildRule constructor.
-     *
-     * @param string $key The key of the build rule
+     * {@inheritdoc}
      */
-    public function __construct(string $key)
+    public function __construct(string $property)
     {
-        $this->key = $key;
+        $this->property = $property;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getProperty(): string
+    {
+        return $this->property;
     }
 
     /**
@@ -45,7 +45,7 @@ class PreparingBuildRule implements IDatasetBuildRule
         if (!isset($data['description'])) {
             $notices[] = \sprintf(
                 '%s %s: No description harvested, skipping metadata extraction',
-                $prefix, $this->key
+                $prefix, $this->property
             );
 
             return;
@@ -54,7 +54,7 @@ class PreparingBuildRule implements IDatasetBuildRule
         if (null == $data['description'] || '' == \trim($data['description'])) {
             $notices[] = \sprintf(
                 '%s %s: No description harvested, skipping metadata extraction',
-                $prefix, $this->key
+                $prefix, $this->property
             );
 
             return;
@@ -74,7 +74,7 @@ class PreparingBuildRule implements IDatasetBuildRule
     {
         $notices[] = \sprintf(
             '%s %s: Attempting title metadata extraction',
-            $prefix, $this->key
+            $prefix, $this->property
         );
         $starting_pattern = '[Titel:';
         $ending_pattern   = ']';
@@ -84,7 +84,7 @@ class PreparingBuildRule implements IDatasetBuildRule
         if (false === $starting_pattern_present) {
             $notices[] = \sprintf(
                 '%s %s: Title starting pattern not present, skipping',
-                $prefix, $this->key
+                $prefix, $this->property
             );
 
             return null;
@@ -95,7 +95,7 @@ class PreparingBuildRule implements IDatasetBuildRule
         if (false === $ending_pattern_present) {
             $notices[] = \sprintf(
                 '%s %s: Title closing pattern not present, skipping',
-                $prefix, $this->key
+                $prefix, $this->property
             );
 
             return null;
@@ -110,7 +110,7 @@ class PreparingBuildRule implements IDatasetBuildRule
         if (false === $title) {
             $notices[] = \sprintf(
                 '%s %s: Failed to extract title from harvested description',
-                $prefix, $this->key
+                $prefix, $this->property
             );
 
             return null;
@@ -132,7 +132,7 @@ class PreparingBuildRule implements IDatasetBuildRule
 
         $notices[] = \sprintf(
             '%s %s: Extracted title %s from harvested description',
-            $prefix, $this->key, $title
+            $prefix, $this->property, $title
         );
 
         return $title;
@@ -142,7 +142,7 @@ class PreparingBuildRule implements IDatasetBuildRule
     {
         $notices[] = \sprintf(
             '%s %s: Attempting theme metadata extraction',
-            $prefix, $this->key
+            $prefix, $this->property
         );
         $starting_pattern = '[Thema:';
         $ending_pattern   = ']';
@@ -152,7 +152,7 @@ class PreparingBuildRule implements IDatasetBuildRule
         if (false === $starting_pattern_present) {
             $notices[] = \sprintf(
                 '%s %s: Theme starting pattern not present, skipping',
-                $prefix, $this->key
+                $prefix, $this->property
             );
 
             return [];
@@ -163,7 +163,7 @@ class PreparingBuildRule implements IDatasetBuildRule
         if (false === $ending_pattern_present) {
             $notices[] = \sprintf(
                 '%s %s: Theme closing pattern not present, skipping',
-                $prefix, $this->key
+                $prefix, $this->property
             );
 
             return [];
@@ -178,7 +178,7 @@ class PreparingBuildRule implements IDatasetBuildRule
         if (false === $themes) {
             $notices[] = \sprintf(
                 '%s %s: Failed to extract themes from harvested description',
-                $prefix, $this->key
+                $prefix, $this->property
             );
 
             return [];
@@ -204,7 +204,7 @@ class PreparingBuildRule implements IDatasetBuildRule
 
         $notices[] = \sprintf(
             '%s %s: Extracted %s theme(s) from harvested description',
-            $prefix, $this->key, \count($themes)
+            $prefix, $this->property, \count($themes)
         );
 
         return $themes;
