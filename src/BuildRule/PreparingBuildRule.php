@@ -48,19 +48,25 @@ class PreparingBuildRule implements IDatasetBuildRule
     {
         if (!isset($data['description'])) {
             throw new AbortDatasetBuilderException(
-                'metadata indicates dataset should not be harvested'
+                'metadata indicates the dataset should not be harvested as no description is present'
             );
         }
 
         if (null == $data['description'] || '' == \trim($data['description'])) {
             throw new AbortDatasetBuilderException(
-                'metadata indicates dataset should not be harvested'
+                'metadata indicates the dataset should not be harvested as no description is present'
             );
         }
 
         $should_synchronize = $this->extractSynchronization(
             $data['description'], $notices, $prefix
         );
+
+        if (null === $should_synchronize) {
+            throw new AbortDatasetBuilderException(
+                'metadata indicates dataset should not be harvested as the \'Dataset delen\' vocabulary is absent'
+            );
+        }
 
         if (!$should_synchronize) {
             throw new AbortDatasetBuilderException(
@@ -158,7 +164,7 @@ class PreparingBuildRule implements IDatasetBuildRule
         return $extracted_metadata;
     }
 
-    private function extractSynchronization(string &$description, array &$notices, string $prefix): bool
+    private function extractSynchronization(string &$description, array &$notices, string $prefix): ?bool
     {
         $notices[] = \sprintf(
             '%s %s: Determining if dataset is eligible for synchronization',
@@ -171,7 +177,7 @@ class PreparingBuildRule implements IDatasetBuildRule
         );
 
         if (null === $data) {
-            return false;
+            return null;
         }
 
         return 'ja' === \trim(\strtolower($data));
