@@ -48,13 +48,13 @@ class PreparingBuildRule implements IDatasetBuildRule
     {
         if (!isset($data['description'])) {
             throw new AbortDatasetBuilderException(
-                'metadata indicates the dataset should not be harvested as no description is present'
+                'Metadata indicates the dataset should not be harvested as no description is present'
             );
         }
 
         if (null == $data['description'] || '' == \trim($data['description'])) {
             throw new AbortDatasetBuilderException(
-                'metadata indicates the dataset should not be harvested as no description is present'
+                'Metadata indicates the dataset should not be harvested as no description is present'
             );
         }
 
@@ -64,13 +64,13 @@ class PreparingBuildRule implements IDatasetBuildRule
 
         if (null === $should_synchronize) {
             throw new AbortDatasetBuilderException(
-                'metadata indicates dataset should not be harvested as the \'Dataset delen\' vocabulary is absent'
+                'Metadata indicates dataset should not be harvested as the \'Dataset delen\' vocabulary is absent'
             );
         }
 
         if (!$should_synchronize) {
             throw new AbortDatasetBuilderException(
-                'metadata indicates dataset should not be harvested'
+                'Metadata indicates dataset should not be harvested as \'Dataset delen\' is set to \'nee\''
             );
         }
 
