@@ -109,7 +109,10 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
             foreach ($this->layers as $layer) {
                 $request = $client->request(
                     'GET',
-                    \sprintf('/geoservices/%s/ows?service=WFS&version=1.1.0&request=GetCapabilities', $layer),
+                    \sprintf(
+                        '/geoservices/%s/ows?service=WFS&version=1.1.0&request=GetCapabilities',
+                        $layer
+                    ),
                     [
                         'accept' => 'application/xml',
                     ]

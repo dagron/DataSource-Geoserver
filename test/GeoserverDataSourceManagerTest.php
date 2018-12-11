@@ -260,14 +260,21 @@ class GeoserverDataSourceManagerTest extends TestCase
         }
     }
 
-    public function testReturnsAllTheBuildRules(): void
+    public function testReturnsAllTheDatasetBuildRules(): void
     {
         $manager = new GeoserverDataSourceManager();
-        $rules   = $manager->getCustomBuildRules();
+        $rules   = $manager->getCustomDatasetBuildRules();
 
-        $this->assertTrue(2 == \count($rules));
+        $this->assertTrue(1 == \count($rules));
         $this->assertArrayHasKey('_before', $rules);
-        $this->assertArrayHasKey('description', $rules);
+    }
+
+    public function testReturnsAllTheDistributionBuildRules(): void
+    {
+        $manager = new GeoserverDataSourceManager();
+        $rules   = $manager->getCustomDistributionBuildRules();
+
+        $this->assertTrue(0 == \count($rules));
     }
 
     private function mockNotFoundFileSystemHelper(): IFileSystemHelper

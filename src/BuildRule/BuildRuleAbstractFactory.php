@@ -3,6 +3,7 @@
 namespace NijmegenSync\DataSource\Geoserver\BuildRule;
 
 use NijmegenSync\Dataset\Builder\IDatasetBuildRule;
+use NijmegenSync\Dataset\Builder\IDistributionBuildRule;
 
 /**
  * Class BuildRuleAbstractFactory.
@@ -16,11 +17,20 @@ class BuildRuleAbstractFactory
      *
      * @return IDatasetBuildRule[] The custom build rules to use
      */
-    public static function getAll(): array
+    public static function getAllDatasetBuildRules(): array
     {
         return [
-            '_before'     => new PreparingBuildRule('_before'),
-            'description' => new DatasetDescriptionBuildRule('Description'),
+            '_before' => new PreparingBuildRule('_before'),
         ];
+    }
+
+    /**
+     * Returns all the defined custom build rules for the distribution build steps to replace.
+     *
+     * @return IDistributionBuildRule[] The custom build rules to use
+     */
+    public static function getAllDistributionBuildRules(): array
+    {
+        return [];
     }
 }

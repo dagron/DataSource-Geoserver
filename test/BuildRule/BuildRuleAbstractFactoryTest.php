@@ -7,11 +7,17 @@ use PHPUnit\Framework\TestCase;
 
 class BuildRuleAbstractFactoryTest extends TestCase
 {
-    public function testExposesBuildRuleForDescription(): void
+    public function testExposesDatasetBuildRules(): void
     {
-        $build_rules = BuildRuleAbstractFactory::getAll();
+        $build_rules = BuildRuleAbstractFactory::getAllDatasetBuildRules();
 
         $this->assertArrayHasKey('_before', $build_rules);
-        $this->assertArrayHasKey('description', $build_rules);
+    }
+
+    public function testExposesNoDistributionBuildRules(): void
+    {
+        $build_rules = BuildRuleAbstractFactory::getAllDistributionBuildRules();
+
+        $this->assertTrue(0 == \count($build_rules));
     }
 }

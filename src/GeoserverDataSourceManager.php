@@ -253,8 +253,16 @@ class GeoserverDataSourceManager extends BaseNijmegenSyncModule implements IData
     /**
      * {@inheritdoc}
      */
-    public function getCustomBuildRules(): array
+    public function getCustomDatasetBuildRules(): array
     {
-        return BuildRuleAbstractFactory::getAll();
+        return BuildRuleAbstractFactory::getAllDatasetBuildRules();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCustomDistributionBuildRules(): array
+    {
+        return BuildRuleAbstractFactory::getAllDistributionBuildRules();
     }
 }
