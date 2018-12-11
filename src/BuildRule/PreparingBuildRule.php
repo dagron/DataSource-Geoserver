@@ -47,33 +47,39 @@ class PreparingBuildRule implements IDatasetBuildRule
                               array $whitelist_mappers, array &$notices, string $prefix): void
     {
         if (!isset($data['description'])) {
-            $notices[] = \sprintf(
-                '%s %s: No description harvested, skipping metadata extraction',
-                $prefix, $this->property
+            throw new AbortDatasetBuilderException(
+                'metadata indicates dataset should not be harvested'
             );
-
-            return;
         }
 
         if (null == $data['description'] || '' == \trim($data['description'])) {
-            $notices[] = \sprintf(
-                '%s %s: No description harvested, skipping metadata extraction',
-                $prefix, $this->property
+            throw new AbortDatasetBuilderException(
+                'metadata indicates dataset should not be harvested'
             );
-
-            return;
         }
 
-        $should_synchronize = $this->extractSynchronization($data['description'], $notices, $prefix);
+        $should_synchronize = $this->extractSynchronization(
+            $data['description'], $notices, $prefix
+        );
 
         if (!$should_synchronize) {
-            throw new AbortDatasetBuilderException('metadata indicates dataset should not be harvested');
+            throw new AbortDatasetBuilderException(
+                'metadata indicates dataset should not be harvested'
+            );
         }
 
-        $data['title']       = $this->extractTitle($data['description'], $notices, $prefix);
-        $data['description'] = $this->extractDescription($data['description'], $notices, $prefix, $data['title']);
-        $data['theme']       = $this->extractThemes($data['description'], $notices, $prefix);
-        $data['highValue']   = $this->extractHighValue($data['description'], $notices, $prefix);
+        $data['title']       = $this->extractTitle(
+            $data['description'], $notices, $prefix
+        );
+        $data['description'] = $this->extractDescription(
+            $data['description'], $notices, $prefix, $data['title']
+        );
+        $data['theme']       = $this->extractThemes(
+            $data['description'], $notices, $prefix
+        );
+        $data['highValue']   = $this->extractHighValue(
+            $data['description'], $notices, $prefix
+        );
     }
 
     /**
@@ -203,7 +209,10 @@ class PreparingBuildRule implements IDatasetBuildRule
 
         if ('standaard' === $data) {
             $template = \file_get_contents(
-                \sprintf('%s/%s', __DIR__, '../../var/templates/description_standaard.tpl')
+                \sprintf(
+                    '%s/%s',
+                    __DIR__, '../../var/templates/description_standaard.tpl'
+                )
             );
             $layers   = '';
 
