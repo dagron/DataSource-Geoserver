@@ -277,18 +277,6 @@ class PreparingBuildRule implements IDatasetBuildRule
             );
             $layers   = '';
 
-            foreach ($data['geoserver_layers'] as $layer) {
-                $layers = \sprintf(
-                    '%s%s%s',
-                    $layers,
-                    PHP_EOL,
-                    \sprintf(
-                        ' - %s',
-                        \sprintf('https://services.nijmegen.nl/geoserver/%s/ows?', $layer)
-                    )
-                );
-            }
-
             return \sprintf($template, $title, $layers);
         }
 
