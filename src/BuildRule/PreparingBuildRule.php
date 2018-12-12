@@ -194,7 +194,7 @@ class PreparingBuildRule implements IDatasetBuildRule
         );
 
         $data = $this->metadataExtractionByPattern(
-            $description, 'Dataset delen', '[Dataset delen:',
+            $description, 'Dataset delen', '[Delen dataset:',
             ']', $notices, $prefix
         );
 
@@ -377,7 +377,7 @@ class PreparingBuildRule implements IDatasetBuildRule
 
         $data = $this->metadataExtractionByPattern(
             $description, 'highValue',
-            '[Dataset onderdeel High Value dataset:', ']', $notices,
+            '[Dataset onderdeel High Value lijst:', ']', $notices,
             $prefix
         );
 
