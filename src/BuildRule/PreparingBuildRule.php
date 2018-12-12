@@ -39,6 +39,13 @@ class PreparingBuildRule implements IDatasetBuildRule
     /**
      * {@inheritdoc}
      *
+     * Attempts to extract metadata from the harvested description so that a proper dataset can be
+     * built from the harvested data of the geoserver.
+     *
+     * Will indicate that the dataset building process should be aborted if no description was
+     * harvested or if the harvested description indicates that the dataset should not be considered
+     * for synchronization.
+     *
      * @throws AbortDatasetBuilderException Thrown if the metadata suggests that the dataset should
      *                                      not be harvested
      */
@@ -48,7 +55,7 @@ class PreparingBuildRule implements IDatasetBuildRule
     {
         if (!isset($data['description'])) {
             throw new AbortDatasetBuilderException(
-                'Metadata indicates the dataset should not be harvested as no description is present'
+                'Metadata indicates the dataset should not be harvested as no description was harvested'
             );
         }
 
@@ -77,14 +84,14 @@ class PreparingBuildRule implements IDatasetBuildRule
         $data['title']       = $this->extractTitle(
             $data['description'], $notices, $prefix
         );
-        $data['description'] = $this->extractDescription(
-            $data['description'], $notices, $prefix, $data['title']
-        );
         $data['theme']       = $this->extractThemes(
             $data['description'], $notices, $prefix
         );
         $data['highValue']   = $this->extractHighValue(
             $data['description'], $notices, $prefix
+        );
+        $data['description'] = $this->extractDescription(
+            $data['description'], $notices, $prefix, $data['title']
         );
     }
 
@@ -164,6 +171,21 @@ class PreparingBuildRule implements IDatasetBuildRule
         return $extracted_metadata;
     }
 
+    /**
+     * Attempts to extract metadata from the given description which indicates whether or not this
+     * dataset should be synchronized to a target application.
+     *
+     * The pattern that is searched for is [Dataset delen: {ja/nee}]. Where 'ja' equates to true and
+     * 'nee' equates to false.
+     *
+     * When the pattern is found it will be cut from the description.
+     *
+     * @param string   $description The description to extract data from
+     * @param string[] $notices     The notices generated during the dataset building process
+     * @param string   $prefix      The DCAT ComplexEntity being built
+     *
+     * @return bool|null True or false if the metadata is present, null otherwise
+     */
     private function extractSynchronization(string &$description, array &$notices, string $prefix): ?bool
     {
         $notices[] = \sprintf(
@@ -183,6 +205,20 @@ class PreparingBuildRule implements IDatasetBuildRule
         return 'ja' === \trim(\strtolower($data));
     }
 
+    /**
+     * Attempts to extract metadata from the given description which contains the title of the
+     * dataset as it should be on a target application.
+     *
+     * The pattern that is searched for is [Title dataset: {title}].
+     *
+     * When the pattern is found it will be cut from the description.
+     *
+     * @param string   $description The description to extract data from
+     * @param string[] $notices     The notices generated during the dataset building process
+     * @param string   $prefix      The DCAT ComplexEntity being built
+     *
+     * @return string|null The extracted title or null if the pattern was absent
+     */
     private function extractTitle(string &$description, array &$notices, $prefix): ?string
     {
         $notices[] = \sprintf(
@@ -200,6 +236,25 @@ class PreparingBuildRule implements IDatasetBuildRule
             : null;
     }
 
+    /**
+     * Attempts to extract metadata from the given description which contains the description of the
+     * dataset as it should be on a target application.
+     *
+     * The pattern that is searched for is [Omschrijving template: {template_name}].
+     *
+     * Supported template names:
+     * - standaard
+     *
+     * When the pattern is found it will be cut from the description.
+     *
+     * @param string   $description The description to extract data from
+     * @param string[] $notices     The notices generated during the dataset building process
+     * @param string   $prefix      The DCAT ComplexEntity being built
+     * @param string   $title       The title of the dataset being built
+     *
+     * @return string|null The generated description template or null if the pattern was
+     *                     absent
+     */
     private function extractDescription(string &$description, array &$notices, $prefix,
                                         string $title): ?string
     {
@@ -240,6 +295,39 @@ class PreparingBuildRule implements IDatasetBuildRule
         return null;
     }
 
+    /**
+     * Attempts to extract metadata from the given description which contains the themes of the
+     * dataset. Multiple themes may be extracted.
+     *
+     * The pattern that is searched for is [Thema dataset: {themes separated by a comma}].
+     *
+     * Supported themes:
+     * - Bestuur
+     * - Cultuur en recreatie
+     * - Economie
+     * - Financien
+     * - Huisvesting
+     * - Internationaal
+     * - Landbouw
+     * - Migratie en integratie
+     * - Natuur en Milieu
+     * - Onderwijs en wetenschap
+     * - Openbare orde en veiligheid
+     * - Recht
+     * - Ruimte en infrastructuur
+     * - Sociale zekerheid
+     * - Verkeer
+     * - Werk
+     * - Zorg en gezondheid
+     *
+     * When the pattern is found it will be cut from the description.
+     *
+     * @param string   $description The description to extract data from
+     * @param string[] $notices     The notices generated during the dataset building process
+     * @param string   $prefix      The DCAT ComplexEntity being built
+     *
+     * @return string[] The extracted themes, may be empty
+     */
     private function extractThemes(string &$description, array &$notices, $prefix): array
     {
         $notices[] = \sprintf(
@@ -266,6 +354,20 @@ class PreparingBuildRule implements IDatasetBuildRule
         return \array_values($themes);
     }
 
+    /**
+     * Attempts to extract metadata from the given description which contains whether or not the
+     * dataset should be considered high value. Will default to false should the metadata be absent.
+     *
+     * The pattern that is searched for is [Dataset onderdeel High Value dataset: {ja/nee}].
+     *
+     * When the pattern is found it will be cut from the description.
+     *
+     * @param string   $description The description to extract data from
+     * @param string[] $notices     The notices generated during the dataset building process
+     * @param string   $prefix      The DCAT ComplexEntity being built
+     *
+     * @return bool Whether or not the dataset should be considered high value
+     */
     private function extractHighValue(string &$description, array &$notices, string $prefix): bool
     {
         $notices[] = \sprintf(
