@@ -55,12 +55,12 @@
     },
     "archive": {
         "exclude": [
-            "/test/",
-            "/.codecov.yml",
-            "/.editorconfig",
-            "/.php_cs",
-            "/.travis.yml",
-            "/phpunit.xml"
+            "test/",
+            ".codecov.yml",
+            ".editorconfig",
+            ".php_cs",
+            ".travis.yml",
+            "phpunit.xml"
         ]
     },
     "require": {
