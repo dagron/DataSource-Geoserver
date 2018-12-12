@@ -53,16 +53,6 @@
         "quality": "php-cs-fixer fix --dry-run",
         "fix-quality": "php-cs-fixer fix"
     },
-    "archive": {
-        "exclude": [
-            "test/",
-            ".codecov.yml",
-            ".editorconfig",
-            ".php_cs",
-            ".travis.yml",
-            "phpunit.xml"
-        ]
-    },
     "require": {
         "php": "^7.2",
         "ext-json": "*",
