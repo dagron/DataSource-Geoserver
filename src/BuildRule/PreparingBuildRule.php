@@ -259,28 +259,35 @@ class PreparingBuildRule implements IDatasetBuildRule
                                         string $title): ?string
     {
         $notices[] = \sprintf(
-            '%s %s: Attempting description metadata extraction',
+            '%s %s: Attempting description template metadata extraction',
             $prefix, $this->property
         );
 
         $data = $this->metadataExtractionByPattern(
-            $description, 'title', '[Omschrijving template:',
+            $description, 'template', '[Omschrijving template:',
             ']', $notices, $prefix
         );
 
-        if ('standaard' === $data) {
-            $template = \file_get_contents(
-                \sprintf(
-                    '%s/%s',
-                    __DIR__, '../../var/templates/description_standaard.tpl'
-                )
-            );
-            $layers   = '';
+        switch ($data) {
+            case 'standaard':
+            default:
+                $template = \file_get_contents(
+                    \sprintf(
+                        '%s/%s',
+                        __DIR__, '../../var/templates/description_standaard.tpl'
+                    )
+                );
+                $generated_description = \sprintf($template, $title);
 
-            return \sprintf($template, $title, $layers);
+                break;
         }
 
-        return null;
+        $notices[] = \sprintf(
+            '%s %s: Using Description template %s',
+            $prefix, $this->property, $data
+        );
+
+        return $generated_description;
     }
 
     /**
