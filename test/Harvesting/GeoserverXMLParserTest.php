@@ -49,6 +49,17 @@ class GeoserverXMLParserTest extends TestCase
         $this->assertSame('test', $parser->findName());
     }
 
+    public function testFindNameIgnoresNamespace(): void
+    {
+        $parser = new GeoserverXMLParser(new \SimpleXMLElement('
+            <root>
+                <Name>namespace:test</Name>
+            </root>
+        '));
+
+        $this->assertSame('test', $parser->findName());
+    }
+
     public function testReturnsEmptyStringWhenNoTitleIsFound(): void
     {
         $parser = new GeoserverXMLParser(new \SimpleXMLElement('<root></root>'));
