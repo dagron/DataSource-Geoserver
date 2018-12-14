@@ -2,13 +2,10 @@
 
 namespace NijmegenSync\DataSource\Geoserver\Harvesting;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use NijmegenSync\Contracts\IAuthenticationDetails;
-use NijmegenSync\DataSource\Harvesting\DataSourceUnavailableHarvestingException;
-use NijmegenSync\DataSource\Harvesting\HarvestingException;
-use NijmegenSync\DataSource\Harvesting\HarvestResult;
 use NijmegenSync\DataSource\Harvesting\IDataSourceHarvester;
+use NijmegenSync\DataSource\Harvesting\WFS\WFSGeoserverHarvester;
+use NijmegenSync\DataSource\Harvesting\WFS\WMSGeoserverHarvester;
 
 /**
  * Class GeoserverDataSourceHarvester.
@@ -18,22 +15,11 @@ use NijmegenSync\DataSource\Harvesting\IDataSourceHarvester;
  */
 class GeoserverDataSourceHarvester implements IDataSourceHarvester
 {
-    /** @var string */
+    /** @var string[] */
     protected $base_uri;
 
     /** @var string */
     protected $layers_uri;
-
-    /** @var string[] */
-    protected $layers;
-
-    /**
-     * GeoserverDataSourceHarvester constructor.
-     */
-    public function __construct()
-    {
-        $this->layers = [];
-    }
 
     /**
      * {@inheritdoc}
@@ -59,19 +45,19 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
     /**
      * Setter for the base_uri property.
      *
-     * @param string $uri The uri to set
+     * @param string[] $uris The uri to set
      */
-    public function setBaseURI(string $uri): void
+    public function setBaseURI(array $uris): void
     {
-        $this->base_uri = $uri;
+        $this->base_uri = $uris;
     }
 
     /**
      * Getter for the base_uri property, may return null.
      *
-     * @return null|string The base_uri value
+     * @return string[] The base_uri value
      */
-    public function getBaseUri(): ?string
+    public function getBaseUri(): array
     {
         return $this->base_uri;
     }
@@ -101,108 +87,16 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
      */
     public function harvest(): array
     {
-        $this->loadLayers();
-        $client  = new Client(['base_uri' => $this->base_uri]);
-        $harvest = [];
+        $wfs_harvester = new WFSGeoserverHarvester();
+        $wfs_harvester->setBaseUrl($this->base_uri['WFS']);
+        $wfs_harvester->setLayersUri($this->layers_uri);
 
-        try {
-            foreach ($this->layers as $layer) {
-                $request = $client->request(
-                    'GET',
-                    \sprintf(
-                        '/geoservices/%s/ows?service=WFS&version=1.1.0&request=GetCapabilities',
-                        $layer
-                    ),
-                    [
-                        'accept' => 'application/xml',
-                    ]
-                );
+        $wms_harvester = new WMSGeoserverHarvester();
+        $wms_harvester->setBaseURL($this->base_uri['WMS']);
 
-                if (200 !== $request->getStatusCode()) {
-                    throw new DataSourceUnavailableHarvestingException(
-                        \sprintf(
-                            'datasource responded with HTTP statuscode %s',
-                            $request->getStatusCode()
-                        )
-                    );
-                }
-
-                $parsable_response = new GeoserverXMLParser(new \SimpleXMLElement($request->getBody()));
-
-                foreach ($parsable_response->getAllEntities() as $entity) {
-                    $data                        = [];
-                    $data['geoserver_layer']     = $layer;
-                    $data['identifier']          = \sprintf(
-                        '%s/geoservices/%s/ows?service=WFS&version=1.1.0&request=GetFeature&typeName=%s',
-                        $this->base_uri, $layer, $entity->findName()
-                    );
-                    $data['title']               = \ucfirst(\strtolower(\str_replace('_', ' ', $entity->findTitle())));
-                    $data['description']         = $entity->findAbstract();
-                    $data['modificationDate']    = (new \DateTime('now', new \DateTimeZone('Europe/Amsterdam')))
-                        ->format('Y-m-d\TH:i:s');
-                    $data['contact_point_email'] = $parsable_response->findContactEmail();
-                    $data['contact_point_name']  = \sprintf(
-                        '%s, %s',
-                        $parsable_response->findContactName(),
-                        $parsable_response->findContactOrganization()
-                    );
-                    $data['accessRights'] = $parsable_response->findAccessRights();
-                    $data['keyword']      = \array_merge(
-                        $entity->findGlobalKeywords(),
-                        $entity->findKeywords()
-                    );
-
-                    foreach ($parsable_response->findSupportedOutputTypes() as $output_type) {
-                        $resource                = [];
-                        $resource['title']       = $output_type;
-                        $resource['description'] = $output_type;
-                        $resource['accessURL']   = \sprintf(
-                            '%s/geoservices/%s/ows?service=WFS&version=1.1.0&request=GetFeature&typeName=%s&outputFormat=%s',
-                            $this->base_uri, $layer, $entity->findName(), \urlencode($output_type)
-                        );
-                        $resource['format']      = $output_type;
-                        $resource['mediaType']   = $output_type;
-                        $resource['rights']      = $parsable_response->findAccessRights();
-
-                        $data['resources'][] = $resource;
-                    }
-
-                    $harvest_result = new HarvestResult();
-                    $harvest_result->setResult($data);
-
-                    $harvest[] = $harvest_result;
-                }
-            }
-
-            return $harvest;
-        } catch (GuzzleException $e) {
-            throw new DataSourceUnavailableHarvestingException($e);
-        }
-    }
-
-    /**
-     * Loads the defined layers from the Drupal taxonomy on the Nijmegen portal.
-     *
-     * @throws HarvestingException Thrown if the layers_uri cannot be reached
-     */
-    private function loadLayers(): void
-    {
-        try {
-            $client  = new Client();
-            $request = $client->request('GET', $this->layers_uri);
-
-            $response_as_xml = new \DOMDocument();
-            @$response_as_xml->loadHTML($request->getBody());
-
-            $traversable_xml = new \DOMXPath($response_as_xml);
-            $workspaces      = $traversable_xml->query('//li[@class="geoserver-workspace"]/a');
-
-            foreach ($workspaces as $workspace) {
-                /* @var $workspace \DOMNode */
-                $this->layers[] = $workspace->nodeValue;
-            }
-        } catch (GuzzleException $e) {
-            throw new HarvestingException('unable to determine layers to harvest');
-        }
+        return \array_merge(
+            $wfs_harvester->harvest(),
+            $wms_harvester->harvest()
+        );
     }
 }

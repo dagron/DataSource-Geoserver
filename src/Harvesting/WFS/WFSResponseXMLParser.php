@@ -1,17 +1,14 @@
 <?php
 
-namespace NijmegenSync\DataSource\Geoserver\Harvesting;
+namespace NijmegenSync\DataSource\Geoserver\Harvesting\WFS;
+
+use NijmegenSync\DataSource\Geoserver\Harvesting\XMLParser;
 
 /**
- * Class GeoserverXMLParser.
- *
- * Represents the, or part of the, XML response given by the Nijmegen Geoserver.
+ * Class WFSResponseXMLParser.
  */
-class GeoserverXMLParser
+class WFSResponseXMLParser extends XMLParser
 {
-    /** @var \SimpleXMLElement */
-    protected $xml;
-
     /**
      * GeoserverXMLParser constructor.
      *
@@ -27,7 +24,7 @@ class GeoserverXMLParser
     /**
      * Finds all FeatureTypes that exist within the Nijmegen Geoserver.
      *
-     * @return GeoserverXMLParser[] Localized GeoserverXMLParsers for the found FeatureTypes
+     * @return WFSEntityXMLParser[] Parsers for the entities inside the WFS server
      */
     public function getAllEntities(): array
     {
@@ -39,7 +36,7 @@ class GeoserverXMLParser
                 $entities = [];
 
                 foreach ($features as $feature) {
-                    $entities[] = new self($feature);
+                    $entities[] = new WFSEntityXMLParser($feature);
                 }
 
                 return $entities;
@@ -47,66 +44,6 @@ class GeoserverXMLParser
         }
 
         return [];
-    }
-
-    /**
-     * Finds and returns the name of a FeatureType, will return an empty string if nothing is found.
-     *
-     * @return string The name of the FeatureType
-     */
-    public function findName(): string
-    {
-        $children = $this->xml->children();
-
-        foreach ($children as $child) {
-            if ('Name' == $child->getName()) {
-                $node_as_string   = \strval($child);
-                $divider_position = \strpos($node_as_string, ':');
-
-                return (false !== $divider_position)
-                    ? \substr($node_as_string, $divider_position + 1)
-                    : $node_as_string;
-            }
-        }
-
-        return '';
-    }
-
-    /**
-     * Finds and returns the title of a FeatureType, will return an empty string if nothing is found.
-     *
-     * @return string The title of the FeatureType
-     */
-    public function findTitle(): string
-    {
-        $children = $this->xml->children();
-
-        foreach ($children as $child) {
-            if ('Title' == $child->getName()) {
-                return \strval($child);
-            }
-        }
-
-        return '';
-    }
-
-    /**
-     * Finds and returns the abstract of a FeatureType, will return an empty string if nothing is
-     * found.
-     *
-     * @return string The abstract of the FeatureType
-     */
-    public function findAbstract(): string
-    {
-        $children = $this->xml->children();
-
-        foreach ($children as $child) {
-            if ('Abstract' == $child->getName()) {
-                return \strval($child);
-            }
-        }
-
-        return '';
     }
 
     /**
@@ -149,24 +86,11 @@ class GeoserverXMLParser
     }
 
     /**
-     * Finds and returns the access rights of the Nijmegen geoserver, will return an empty string if
-     * no rights statement is found.
-     *
-     * @return string The access rights of the Nijmegen geoserver
-     */
-    public function findAccessRights(): string
-    {
-        return $this->querySingleValueString(
-            'ows:ServiceIdentification/ows:AccessConstraints'
-        );
-    }
-
-    /**
      * Finds and returns the keywords describing the Nijmegen geoserver.
      *
      * @return string[] The keywords describing the Nijmegen geoserver
      */
-    public function findGlobalKeywords(): array
+    public function findKeywords(): array
     {
         $query_results = $this->xml->xpath(
             'ows:ServiceIdentification/ows:Keywords/ows:Keyword'
@@ -185,26 +109,16 @@ class GeoserverXMLParser
     }
 
     /**
-     * Finds and returns the keywords describing a FeatureType of the Nijmegen geoserver.
+     * Finds and returns the access rights of the Nijmegen geoserver, will return an empty string if
+     * no rights statement is found.
      *
-     * @return string[] The keywords describing the FeatureType
+     * @return string The access rights of the Nijmegen geoserver
      */
-    public function findKeywords(): array
+    public function findAccessRights(): string
     {
-        $query_results = $this->xml->xpath(
-            'ows:Keywords/ows:Keyword'
+        return $this->querySingleValueString(
+            'ows:ServiceIdentification/ows:AccessConstraints'
         );
-        $keywords = [];
-
-        if (0 == \count($query_results)) {
-            return $keywords;
-        }
-
-        foreach ($query_results as $result) {
-            $keywords[] = \strval($result);
-        }
-
-        return $keywords;
     }
 
     /**
@@ -228,27 +142,6 @@ class GeoserverXMLParser
         }
 
         return $formats;
-    }
-
-    /**
-     * Performs a single-value query on the XML body. If more than one object is returned by the
-     * query, the first one will be returned.
-     *
-     * When no results are found an empty string is returned.
-     *
-     * @param string $xpath_query The query to execute
-     *
-     * @return string The search result based on the given query
-     */
-    private function querySingleValueString(string $xpath_query): string
-    {
-        $result = $this->xml->xpath($xpath_query);
-
-        if (0 == \count($result)) {
-            return '';
-        }
-
-        return \strval($result[0]);
     }
 
     /**
