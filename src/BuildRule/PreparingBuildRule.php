@@ -91,7 +91,7 @@ class PreparingBuildRule implements IDatasetBuildRule
             $data['description'], $notices, $prefix
         );
         $data['description'] = $this->extractDescription(
-            $data['description'], $notices, $prefix, $data['title']
+            $data['description'], $notices, $prefix, $data['title'], $data['geoserver_layer']
         );
     }
 
@@ -251,12 +251,13 @@ class PreparingBuildRule implements IDatasetBuildRule
      * @param string[] $notices     The notices generated during the dataset building process
      * @param string   $prefix      The DCAT ComplexEntity being built
      * @param string   $title       The title of the dataset being built
+     * @param string   $layer       The current Geoserver workspace
      *
      * @return string|null The generated description template or null if the pattern was
      *                     absent
      */
-    private function extractDescription(string &$description, array &$notices, $prefix,
-                                        string $title): ?string
+    private function extractDescription(string &$description, array &$notices, string $prefix,
+                                        string $title, $layer): ?string
     {
         $notices[] = \sprintf(
             '%s %s: Attempting description template metadata extraction',
@@ -277,7 +278,10 @@ class PreparingBuildRule implements IDatasetBuildRule
                         __DIR__, '../../var/templates/description_standaard.tpl'
                     )
                 );
-                $generated_description = \sprintf($template, $title);
+                $wfs_url = \sprintf(
+                    'https://services.nijmegen.nl/geoservices/%s/wfs?', $layer
+                );
+                $generated_description = \sprintf($template, $title, $wfs_url);
 
                 break;
         }

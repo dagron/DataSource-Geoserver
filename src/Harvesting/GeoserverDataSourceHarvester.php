@@ -131,7 +131,7 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
 
                 foreach ($parsable_response->getAllEntities() as $entity) {
                     $data                        = [];
-                    $data['geoserver_layers']    = $this->layers;
+                    $data['geoserver_layer']     = $layer;
                     $data['identifier']          = \sprintf(
                         '%s/geoservices/%s/ows?service=WFS&version=1.1.0&request=GetFeature&typeName=%s',
                         $this->base_uri, $layer, $entity->findName()

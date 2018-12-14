@@ -1,7 +1,4 @@
-Dit betreft de dataset %s, afkomstig uit de Nijmeegse geoserver.
+Dit betreft de dataset %s ontsloten via de Nijmeegse Geoserver, een open source server voor het delen van geografische data.
 
-De data van deze dataset is via een Web Feature Service (WFS) toegankelijk. Deze WFS service is bereikbaar via:
-
-Alle publiek toegankelijk geografische data van de gemeente Nijmegen is via deze service realtime te benaderen.
-
-Veel van de Nijmeegse geografische datasets zijn ook visueel inzichtelijk gemaakt op https://opendata.nijmegen.nl/kaartviewer/
+Naast de diverse bestandsformaten die via het portaal worden aangeboden (kml, shape, csv, gml en geojson) wordt de data ook conform OGC-standaardisatie beschikbaar gesteld als service.
+Deze OGC Web Feature Service (WFS) is bereikbaar via: %s.
