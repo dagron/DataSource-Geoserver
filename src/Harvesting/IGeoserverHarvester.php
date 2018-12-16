@@ -5,12 +5,17 @@ namespace NijmegenSync\DataSource\Geoserver\Harvesting;
 use NijmegenSync\DataSource\Harvesting\HarvestingException;
 use NijmegenSync\DataSource\Harvesting\HarvestResult;
 
+/**
+ * Interface IGeoserverHarvester.
+ */
 interface IGeoserverHarvester
 {
     /**
-     * @throws HarvestingException
+     * Harvests a specific component of the Nijmegen geoserver.
      *
-     * @return HarvestResult[]
+     * @throws HarvestingException Thrown on any error while harvesting the DataSource.
+     *
+     * @return HarvestResult[] The harvested datasets
      */
     public function harvest(): array;
 }

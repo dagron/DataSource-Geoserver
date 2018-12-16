@@ -30,8 +30,7 @@ class WFSResponseXMLParser extends XMLParser
      */
     public function getAllEntities(): array
     {
-        $features = $this->xml->xpath('//FeatureTypeList/FeatureType');
-        $entities = [];
+        $features = $this->xml->FeatureTypeList->FeatureType;
 
         foreach ($features as $feature) {
             $entities[] = new WFSEntityXMLParser($feature);
@@ -96,7 +95,7 @@ class WFSResponseXMLParser extends XMLParser
         }
 
         foreach ($query_results as $result) {
-            $keywords = \strval($result);
+            $keywords[] = \strval($result);
         }
 
         return $keywords;

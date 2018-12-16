@@ -4,7 +4,7 @@
     "harvesting_frequency":         "daily",
     "base_uris":                    {
                                         "WFS": "https://services.nijmegen.nl",
-                                        "WMS": "https://data.nijmegen.nl"
+                                        "WMS": "https://services.nijmegen.nl"
                                     },
     "layers_uri":                   "https://nijmegen-acc.textinfo.nl/nijmegensync/geoserver-workspaces",
     "defaults_file_path":           "defaults.json",

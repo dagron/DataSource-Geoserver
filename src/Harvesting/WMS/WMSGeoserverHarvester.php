@@ -69,9 +69,9 @@ class WMSGeoserverHarvester implements IGeoserverHarvester
                 );
                 $data['title']       = $layer->findTitle();
                 $data['description'] = '
-                    [Dataset delen: ja]
+                    [Delen dataset: ja]
                     [Omschrijving template: WMS]
-                    [Thema: Natuur en milieu]
+                    [Dataset thema: Natuur en milieu]
                 ';
                 $data['modificationDate']    = (new \DateTime('now', new \DateTimeZone('Europe/Amsterdam')))
                     ->format('Y-m-d\TH:i:s');
