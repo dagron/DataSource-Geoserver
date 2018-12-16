@@ -33,19 +33,24 @@
         "gml32":                       "De dataset in GML 3.2 formaat",
         "json":                        "De dataset in GeoJSON formaat",
         "KML":                         "De dataset in KML(Google Maps) formaat",
-        "SHAPE-ZIP":                   "De dataset als Shape bestand"
+        "SHAPE-ZIP":                   "De dataset als Shape bestand",
+        "image/png":                   "Visualisatie van de data in PNG formaat",
+        "image/jpeg":                  "Visualisatie van de data in JPEG formaat"
     },
     "resource.format": {
         "csv":                         "http://publications.europa.eu/resource/authority/file-type/CSV",
         "gml32":                       "http://publications.europa.eu/resource/authority/file-type/GML",
         "json":                        "http://publications.europa.eu/resource/authority/file-type/JSON",
         "KML":                         "http://publications.europa.eu/resource/authority/file-type/KML",
-        "SHAPE-ZIP":                   "http://publications.europa.eu/resource/authority/file-type/ZIP"
+        "SHAPE-ZIP":                   "http://publications.europa.eu/resource/authority/file-type/ZIP",
+        "image/png":                   "http://publications.europa.eu/resource/authority/file-type/PNG",
+        "image/jpeg":                  "http://publications.europa.eu/resource/authority/file-type/JPEG"
     },
     "resource.mediaType": {
         "csv":                         "https://www.iana.org/assignments/media-types/text/csv",
         "gml32":                       "https://www.iana.org/assignments/media-types/application/gml+xml",
         "json":                        "https://www.iana.org/assignments/media-types/application/geo+json",
-        "KML":                         "https://www.iana.org/assignments/media-types/application/vnd.google-earth.kml+xml"
+        "KML":                         "https://www.iana.org/assignments/media-types/application/vnd.google-earth.kml+xml",
+        "image/png":                   "https://www.iana.org/assignments/media-types/image/png"
     }
 }

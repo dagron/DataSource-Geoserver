@@ -9,6 +9,13 @@ use NijmegenSync\DataSource\Harvesting\DataSourceUnavailableHarvestingException;
 use NijmegenSync\DataSource\Harvesting\HarvestingException;
 use NijmegenSync\DataSource\Harvesting\HarvestResult;
 
+/**
+ * Class WFSGeoserverHarvester.
+ *
+ * This implementation allows for the harvesting of datasets from a WFS endpoint of a Geoserver
+ * application. It extracts metadata from the Geoserver by analyzing the contents of the
+ * GetCapabilities API call.
+ */
 class WFSGeoserverHarvester implements IGeoserverHarvester
 {
     /** @var string */

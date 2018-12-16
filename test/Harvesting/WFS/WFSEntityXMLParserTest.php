@@ -1,46 +1,22 @@
 <?php
 
-namespace NijmegenSync\Test\DataSource\Harvesting;
+namespace NijmegenSync\Test\DataSource\Geoserver\Harvesting\WFS;
 
-use NijmegenSync\DataSource\Geoserver\Harvesting\GeoserverXMLParser;
+use NijmegenSync\DataSource\Geoserver\Harvesting\WFS\WFSEntityXMLParser;
 use PHPUnit\Framework\TestCase;
 
-class GeoserverXMLParserTest extends TestCase
+class WFSEntityXMLParserTest extends TestCase
 {
-    public function testReturnsEmptyListWhenNoEntitiesAreFound(): void
-    {
-        $parser = new GeoserverXMLParser(new \SimpleXMLElement('
-            <root>
-            </root>
-        '));
-
-        $this->assertSame([], $parser->getAllEntities());
-    }
-
-    public function testReturnsAllTheChildrenOfFeatureTypeList(): void
-    {
-        $parser = new GeoserverXMLParser(new \SimpleXMLElement('
-            <root>
-                <FeatureTypeList>
-                    <a></a>
-                    <b></b>
-                </FeatureTypeList>
-            </root>
-        '));
-
-        $this->assertTrue(2 === \count($parser->getAllEntities()));
-    }
-
     public function testReturnsEmptyStringWhenNoNameIsFound(): void
     {
-        $parser = new GeoserverXMLParser(new \SimpleXMLElement('<root></root>'));
+        $parser = new WFSEntityXMLParser(new \SimpleXMLElement('<root></root>'));
 
         $this->assertSame('', $parser->findName());
     }
 
     public function testReturnsNameWhenNameIsFound(): void
     {
-        $parser = new GeoserverXMLParser(new \SimpleXMLElement('
+        $parser = new WFSEntityXMLParser(new \SimpleXMLElement('
             <root>
                 <Name>test</Name>
             </root>
@@ -51,7 +27,7 @@ class GeoserverXMLParserTest extends TestCase
 
     public function testFindNameIgnoresNamespace(): void
     {
-        $parser = new GeoserverXMLParser(new \SimpleXMLElement('
+        $parser = new WFSEntityXMLParser(new \SimpleXMLElement('
             <root>
                 <Name>namespace:test</Name>
             </root>
@@ -62,14 +38,14 @@ class GeoserverXMLParserTest extends TestCase
 
     public function testReturnsEmptyStringWhenNoTitleIsFound(): void
     {
-        $parser = new GeoserverXMLParser(new \SimpleXMLElement('<root></root>'));
+        $parser = new WFSEntityXMLParser(new \SimpleXMLElement('<root></root>'));
 
         $this->assertSame('', $parser->findTitle());
     }
 
     public function testReturnsTitleWhenTitleIsFound(): void
     {
-        $parser = new GeoserverXMLParser(new \SimpleXMLElement('
+        $parser = new WFSEntityXMLParser(new \SimpleXMLElement('
             <root>
                 <Title>test</Title>
             </root>
@@ -80,14 +56,14 @@ class GeoserverXMLParserTest extends TestCase
 
     public function testReturnsEmptyStringWhenNoAbstractIsFound(): void
     {
-        $parser = new GeoserverXMLParser(new \SimpleXMLElement('<root></root>'));
+        $parser = new WFSEntityXMLParser(new \SimpleXMLElement('<root></root>'));
 
         $this->assertSame('', $parser->findAbstract());
     }
 
     public function testReturnsAbstractWhenAbstractIsFound(): void
     {
-        $parser = new GeoserverXMLParser(new \SimpleXMLElement('
+        $parser = new WFSEntityXMLParser(new \SimpleXMLElement('
             <root>
                 <Abstract>test</Abstract>
             </root>

@@ -4,6 +4,12 @@ namespace NijmegenSync\DataSource\Geoserver\Harvesting\WFS;
 
 use NijmegenSync\DataSource\Geoserver\Harvesting\XMLParser;
 
+/**
+ * Class WFSEntityXMLParser.
+ *
+ * Allows for the parsing of specific FeatureTypes present in the GetCapabilities API call to a
+ * geoserver application.
+ */
 class WFSEntityXMLParser extends XMLParser
 {
     /**

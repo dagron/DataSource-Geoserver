@@ -3,9 +3,9 @@
 namespace NijmegenSync\DataSource\Geoserver\Harvesting;
 
 use NijmegenSync\Contracts\IAuthenticationDetails;
+use NijmegenSync\DataSource\Geoserver\Harvesting\WFS\WFSGeoserverHarvester;
+use NijmegenSync\DataSource\Geoserver\Harvesting\WMS\WMSGeoserverHarvester;
 use NijmegenSync\DataSource\Harvesting\IDataSourceHarvester;
-use NijmegenSync\DataSource\Harvesting\WFS\WFSGeoserverHarvester;
-use NijmegenSync\DataSource\Harvesting\WFS\WMSGeoserverHarvester;
 
 /**
  * Class GeoserverDataSourceHarvester.

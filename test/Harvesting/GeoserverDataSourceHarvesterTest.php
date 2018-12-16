@@ -45,8 +45,8 @@ class GeoserverDataSourceHarvesterTest extends TestCase
     public function testBaseURISettingAndGetting(): void
     {
         $harvester = new GeoserverDataSourceHarvester();
-        $harvester->setBaseURI('test');
+        $harvester->setBaseURI(['test']);
 
-        $this->assertSame('test', $harvester->getBaseUri());
+        $this->assertSame(['test'], $harvester->getBaseUri());
     }
 }

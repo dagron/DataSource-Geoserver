@@ -4,6 +4,9 @@ namespace NijmegenSync\DataSource\Geoserver\Harvesting\WMS;
 
 use NijmegenSync\DataSource\Geoserver\Harvesting\XMLParser;
 
+/**
+ * Class WMSResponseXMLParser.
+ */
 class WMSResponseXMLParser extends XMLParser
 {
     /**
@@ -14,27 +17,90 @@ class WMSResponseXMLParser extends XMLParser
     public function __construct(\SimpleXMLElement $geoserver_response)
     {
         $this->xml = $geoserver_response;
-
-        $this->registerNamespaces();
-    }
-
-    public function findLayers(): array
-    {
-        return $this->xml->xpath('//Layer');
     }
 
     /**
-     * Registers the namespaces of the Nijmegen geoserver for proper parsing of the XML body.
+     * Finds all the layers which are eligible to turn into datasets.
+     *
+     * @return WMSLayerXMLParser[] The parsers for the eligible layers
      */
-    private function registerNamespaces(): void
+    public function getAllLayers(): array
     {
-        $this->xml->registerXPathNamespace('xsi', 'http://www.w3.org/2001/XMLSchema-instance');
-        $this->xml->registerXPathNamespace('wfs', 'http://www.opengis.net/wfs/2.0');
-        $this->xml->registerXPathNamespace('ows', 'http://www.opengis.net/ows/1.1');
-        $this->xml->registerXPathNamespace('gml', 'http://www.opengis.net/gml/3.2');
-        $this->xml->registerXPathNamespace('fes', 'http://www.opengis.net/fes/2.0');
-        $this->xml->registerXPathNamespace('xlink', 'http://www.w3.org/1999/xlink');
-        $this->xml->registerXPathNamespace('xs', 'http://www.w3.org/2001/XMLSchema');
-        $this->xml->registerXPathNamespace('xml', 'http://www.w3.org/XML/1998/namespace');
+        $layers        = $this->xml->xpath('//Layer[@queryable=1]/parent::Layer');
+        $layer_parsers = [];
+
+        foreach ($layers as $layer) {
+            $layer_parsers[] = new WMSLayerXMLParser($layer);
+        }
+
+        return $layer_parsers;
+    }
+
+    /**
+     * Looks for the person or department of the contact point.
+     *
+     * @return string The search result
+     */
+    public function findContactPerson(): string
+    {
+        return $this->querySingleValueString(
+            '//ContactInformation/ContactPersonPrimary/ContactPerson'
+        );
+    }
+
+    /**
+     * Looks for the organization behind the contact point.
+     *
+     * @return string The search result
+     */
+    public function findContactOrganization(): string
+    {
+        return $this->querySingleValueString(
+            '//ContactInformation/ContactPersonPrimary/ContactOrganization'
+        );
+    }
+
+    /**
+     * Looks for the email address of the contact point.
+     *
+     * @return string The search result
+     */
+    public function findContactEmail(): string
+    {
+        return $this->querySingleValueString(
+            '//ContactInformation/ContactElectronicMailAddress'
+        );
+    }
+
+    /**
+     * Looks for any access rights restrictions in the metadata.
+     *
+     * @return string The search result
+     */
+    public function findAccessRights(): string
+    {
+        return $this->querySingleValueString(
+            '//Service/AccessConstraints'
+        );
+    }
+
+    /**
+     * Looks for the desired output format of the API.
+     *
+     * @return string The search result
+     */
+    public function findDesiredOutputFormat(): string
+    {
+        $query = $this->querySingleValueString(
+            '//Capability/Request/GetMap/Format[text()="image/png"]'
+        );
+
+        if ('' === $query) {
+            $query = $this->querySingleValueString(
+                '//Capability/Request/GetMap/Format[text()="image/jpeg"]'
+            );
+        }
+
+        return $query;
     }
 }

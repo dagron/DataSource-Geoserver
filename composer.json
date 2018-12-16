@@ -39,8 +39,8 @@
     "autoload-dev": {
         "psr-4": {
             "NijmegenSync\\Test\\DataSource\\Geoserver\\BuildRule\\": "test/BuildRule/",
-            "NijmegenSync\\Test\\DataSource\\Geoserver\\Harvesting\\WFS\\": "src/Harvesting/WFS/",
-            "NijmegenSync\\Test\\DataSource\\Geoserver\\Harvesting\\WMS\\": "src/Harvesting/WMS/",
+            "NijmegenSync\\Test\\DataSource\\Geoserver\\Harvesting\\WFS\\": "test/Harvesting/WFS/",
+            "NijmegenSync\\Test\\DataSource\\Geoserver\\Harvesting\\WMS\\": "test/Harvesting/WMS/",
             "NijmegenSync\\Test\\DataSource\\Geoserver\\Harvesting\\": "test/Harvesting/",
             "NijmegenSync\\Test\\DataSource\\Geoserver\\": "test/"
         }

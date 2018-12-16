@@ -6,6 +6,8 @@ use NijmegenSync\DataSource\Geoserver\Harvesting\XMLParser;
 
 /**
  * Class WFSResponseXMLParser.
+ *
+ * Represents the response of the Geoserver application when requesting the GetCapabilities.
  */
 class WFSResponseXMLParser extends XMLParser
 {
@@ -28,22 +30,14 @@ class WFSResponseXMLParser extends XMLParser
      */
     public function getAllEntities(): array
     {
-        $children = $this->xml->children();
+        $features = $this->xml->xpath('//FeatureTypeList/FeatureType');
+        $entities = [];
 
-        foreach ($children as $child) {
-            if ('FeatureTypeList' == $child->getName()) {
-                $features = $child->children();
-                $entities = [];
-
-                foreach ($features as $feature) {
-                    $entities[] = new WFSEntityXMLParser($feature);
-                }
-
-                return $entities;
-            }
+        foreach ($features as $feature) {
+            $entities[] = new WFSEntityXMLParser($feature);
         }
 
-        return [];
+        return $entities;
     }
 
     /**
