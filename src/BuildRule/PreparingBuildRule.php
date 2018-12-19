@@ -277,7 +277,10 @@ class PreparingBuildRule implements IDatasetBuildRule
                         __DIR__, '../../var/templates/description_WMS.tpl'
                     )
                 );
-                $generated_description = \sprintf($template, $title);
+                $wms_url = \sprintf(
+                    'https://services.nijmegen.nl/geoservices/wms/extern?'
+                );
+                $generated_description = \sprintf($template, $title, $wms_url);
 
                 break;
             case 'standaard':
