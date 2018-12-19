@@ -25,4 +25,20 @@ class WMSLayerXMLParser extends XMLParser
     {
         return $this->xml->Title;
     }
+
+    public function findBoundingBox(): string
+    {
+        foreach ($this->xml->BoundingBox as $box) {
+            if ($box->attributes()['SRS'] == 'EPSG:28992') {
+                $min_x = \substr($box->attributes()['minx'], 0, 6);
+                $min_y = \substr($box->attributes()['miny'], 0, 6);
+                $max_x = \substr($box->attributes()['maxx'], 0, 6);
+                $max_y = \substr($box->attributes()['maxy'], 0, 6);
+
+                return \sprintf('%s,%s,%s,%s', $min_x, $min_y, $max_x, $max_y);
+            }
+        }
+
+        return '';
+    }
 }
