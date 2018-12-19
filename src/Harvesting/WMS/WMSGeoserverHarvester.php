@@ -136,7 +136,7 @@ class WMSGeoserverHarvester implements IGeoserverHarvester
         $title = \str_replace('Luchtfoto', '', $title);
         $title = \str_replace('luchtfoto', '', $title);
 
-        $title = \sprintf('Nijmeegse luchtfoto %s', $title);
+        $title = \sprintf('Geografische weergave van Nijmegen %s', $title);
 
         return $title;
     }
