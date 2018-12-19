@@ -16,6 +16,11 @@ class WMSLayerXMLParser extends XMLParser
         $this->xml = $geoserver_response;
     }
 
+    public function findName(): string
+    {
+        return $this->xml->Name;
+    }
+
     public function findTitle(): string
     {
         return $this->xml->Title;
