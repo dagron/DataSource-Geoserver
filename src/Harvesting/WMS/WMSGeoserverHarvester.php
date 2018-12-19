@@ -125,6 +125,7 @@ class WMSGeoserverHarvester implements IGeoserverHarvester
      * Performs several cleanup actions which results in a presentable title.
      *
      * @param string $title The original title
+     *
      * @return string The cleaned up title
      */
     protected function cleanupTitle(string $title): string
