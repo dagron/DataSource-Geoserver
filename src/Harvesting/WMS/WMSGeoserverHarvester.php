@@ -73,6 +73,7 @@ class WMSGeoserverHarvester implements IGeoserverHarvester
                 $data['title']       = $layer->findTitle();
                 $data['description'] = '
                     [Delen dataset: ja]
+                    [Titel dataset: ' . $layer->findTitle() . ']
                     [Omschrijving template: WMS]
                     [Dataset thema: Natuur en milieu]
                 ';
