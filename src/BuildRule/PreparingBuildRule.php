@@ -91,7 +91,7 @@ class PreparingBuildRule implements IDatasetBuildRule
             $data['description'], $notices, $prefix
         );
         $data['description'] = $this->extractDescription(
-            $data['description'], $notices, $prefix, $data['title'], $data['geoserver_layer']
+            $data['description'], $notices, $prefix, $data['title'], $data
         );
     }
 
@@ -251,35 +251,46 @@ class PreparingBuildRule implements IDatasetBuildRule
      * @param string[] $notices     The notices generated during the dataset building process
      * @param string   $prefix      The DCAT ComplexEntity being built
      * @param string   $title       The title of the dataset being built
-     * @param string   $layer       The current Geoserver workspace
+     * @param array    $data        The harvested data
      *
      * @return string|null The generated description template or null if the pattern was
      *                     absent
      */
     private function extractDescription(string &$description, array &$notices, string $prefix,
-                                        string $title, $layer): ?string
+                                        string $title, array $data): ?string
     {
         $notices[] = \sprintf(
             '%s %s: Attempting description template metadata extraction',
             $prefix, $this->property
         );
 
-        $data = $this->metadataExtractionByPattern(
+        $template_input = $this->metadataExtractionByPattern(
             $description, 'template', '[Omschrijving template:',
             ']', $notices, $prefix
         );
 
-        switch ($data) {
+        switch ($template_input) {
+            case 'WMS':
+                $template = \file_get_contents(
+                    \sprintf(
+                        '%s/%s',
+                        __DIR__, '../../var/templates/description_WMS.tpl'
+                    )
+                );
+                $generated_description = \sprintf($template, $title);
+
+                break;
             case 'standaard':
+            case 'WFS':
             default:
                 $template = \file_get_contents(
                     \sprintf(
                         '%s/%s',
-                        __DIR__, '../../var/templates/description_standaard.tpl'
+                        __DIR__, '../../var/templates/description_WFS.tpl'
                     )
                 );
                 $wfs_url = \sprintf(
-                    'https://services.nijmegen.nl/geoservices/%s/wfs?', $layer
+                    'https://services.nijmegen.nl/geoservices/%s/wfs?', $data['geoserver_layer']
                 );
                 $generated_description = \sprintf($template, $title, $wfs_url);
 
@@ -288,7 +299,7 @@ class PreparingBuildRule implements IDatasetBuildRule
 
         $notices[] = \sprintf(
             '%s %s: Using Description template %s',
-            $prefix, $this->property, $data
+            $prefix, $this->property, $template_input
         );
 
         return $generated_description;
