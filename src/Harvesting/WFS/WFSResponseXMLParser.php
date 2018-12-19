@@ -30,7 +30,7 @@ class WFSResponseXMLParser extends XMLParser
      */
     public function getAllEntities(): array
     {
-        $features = $this->xml->xpath('//FeatureType');
+        $features = $this->xml->FeatureTypeList->FeatureType;
         $entities = [];
 
         if (0 == \count($features)) {
