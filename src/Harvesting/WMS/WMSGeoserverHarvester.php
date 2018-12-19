@@ -73,7 +73,7 @@ class WMSGeoserverHarvester implements IGeoserverHarvester
                 $data['title']       = $layer->findTitle();
                 $data['description'] = '
                     [Delen dataset: ja]
-                    [Titel dataset: ' . $layer->findTitle() . ']
+                    [Titel dataset: ' . $this->cleanUpTitle($layer->findTitle()) . ']
                     [Omschrijving template: WMS]
                     [Thema dataset: Natuur en milieu]
                 ';
@@ -119,5 +119,24 @@ class WMSGeoserverHarvester implements IGeoserverHarvester
         }
 
         return $harvest;
+    }
+
+    /**
+     * Performs several cleanup actions which results in a presentable title.
+     *
+     * @param string $title The original title
+     * @return string The cleaned up title
+     */
+    protected function cleanupTitle(string $title): string
+    {
+        $title = \str_replace('_', ' ', $title);
+        $title = \str_replace('.ecw', '', $title);
+        $title = \str_replace('lufo', '', $title);
+        $title = \str_replace('Luchtfoto', '', $title);
+        $title = \str_replace('luchtfoto', '', $title);
+
+        $title = \sprintf('Nijmeegse luchtfoto %s', $title);
+
+        return $title;
     }
 }
