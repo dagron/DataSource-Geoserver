@@ -34,8 +34,10 @@
         "json":                        "De dataset in GeoJSON formaat",
         "KML":                         "De dataset in KML(Google Maps) formaat",
         "SHAPE-ZIP":                   "De dataset als Shape bestand",
-        "image/png":                   "Visualisatie van de data in PNG formaat",
-        "image/jpeg":                  "Visualisatie van de data in JPEG formaat"
+        "500x500":                     "Visualisatie van de kaartlaag met formaat 500 bij 500 pixels",
+        "1000x1000":                   "Visualisatie van de kaartlaag met formaat 1000 bij 1000 pixels",
+        "1500x1500":                   "Visualisatie van de kaartlaag met formaat 1500 bij 1500 pixels",
+        "2000x2000":                   "Visualisatie van de kaartlaag met formaat 2000 bij 2000 pixels"
     },
     "resource.format": {
         "csv":                         "http://publications.europa.eu/resource/authority/file-type/CSV",
