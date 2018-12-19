@@ -19,7 +19,7 @@ class WMSLayerXMLParser extends XMLParser
     public function findTitle(): string
     {
         return $this->querySingleValueString(
-            '//Title'
+            '/Title'
         );
     }
 }

@@ -67,7 +67,7 @@ class WMSGeoserverHarvester implements IGeoserverHarvester
                     'geoserver_service' => 'WMS',
                 ];
                 $data['identifier'] = \sprintf(
-                    '%s/geoservices/wms/extern?service=WMS&version=1.3.0&request=GetMap&layers=%s&styles=default&CRS=EPSG:28992&bbox=176000,419000,193000,436500&width=1000&height=1000&format=image/png',
+                    '%s/geoservices/wms/extern?service=WMS&version=1.3.0&request=GetMap&layers=%s',
                     $this->base_url, $layer->findTitle()
                 );
                 $data['title']       = $layer->findTitle();
