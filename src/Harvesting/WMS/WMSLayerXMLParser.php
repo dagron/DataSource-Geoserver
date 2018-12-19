@@ -22,18 +22,4 @@ class WMSLayerXMLParser extends XMLParser
             '//Title'
         );
     }
-
-    public function findAllQueryableLayers(): array
-    {
-        $layers    = $this->xml->xpath('//Layer[@queryable=1]');
-        $resources = [];
-
-        for ($i = 0; $i < \count($layers); ++$i) {
-            $resources[] = $this->xml->xpath(
-                \sprintf('//Layer[@queryable=1][%s]/Name', $i)
-            );
-        }
-
-        return $resources;
-    }
 }

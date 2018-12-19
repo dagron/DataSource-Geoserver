@@ -8,6 +8,9 @@ use NijmegenSync\DataSource\Geoserver\Harvesting\IGeoserverHarvester;
 use NijmegenSync\DataSource\Harvesting\DataSourceUnavailableHarvestingException;
 use NijmegenSync\DataSource\Harvesting\HarvestResult;
 
+/**
+ * Class WMSGeoserverHarvester.
+ */
 class WMSGeoserverHarvester implements IGeoserverHarvester
 {
     /** @var string */
@@ -80,6 +83,28 @@ class WMSGeoserverHarvester implements IGeoserverHarvester
                     $parsable_response->findContactPerson(),
                     $parsable_response->findContactOrganization()
                 );
+
+                $resource_types = [
+                    [500, 500],
+                    [1000, 1000],
+                    [1500, 1500],
+                    [2000, 2000],
+                ];
+
+                foreach ($resource_types as $resource_type) {
+                    $resource                = [];
+                    $resource['title']       = \sprintf('%sx%s', $resource_type[0], $resource_type[1]);
+                    $resource['description'] = $resource['title'];
+                    $resource['accessURL']   = \sprintf(
+                        '%s/geoservices/wms/extern?service=WMS&version=1.3.0&request=GetMap&layers=%s&styles=default&CRS=EPSG:28992&bbox=176000,419000,193000,436500&width=%s&height=%s&format=%s',
+                        $this->base_url, $layer->findTitle(), $resource_type[0], $resource_type[1], $parsable_response->findDesiredOutputFormat()
+                    );
+                    $resource['format']    = $parsable_response->findDesiredOutputFormat();
+                    $resource['mediaType'] = $parsable_response->findDesiredOutputFormat();
+                    $resource['rights']    = $parsable_response->findAccessRights();
+
+                    $data['resources'][] = $resource;
+                }
 
                 $harvest_result = new HarvestResult();
                 $harvest_result->setResult($data);

@@ -29,7 +29,7 @@
         "SHAPE-ZIP":                   "Shape"
     },
     "resource.description": {
-        "csv":                         "De dataset in text/csv formaat",
+        "csv":                         "De dataset in CSV formaat",
         "gml32":                       "De dataset in GML 3.2 formaat",
         "json":                        "De dataset in GeoJSON formaat",
         "KML":                         "De dataset in KML(Google Maps) formaat",
@@ -52,5 +52,8 @@
         "json":                        "https://www.iana.org/assignments/media-types/application/geo+json",
         "KML":                         "https://www.iana.org/assignments/media-types/application/vnd.google-earth.kml+xml",
         "image/png":                   "https://www.iana.org/assignments/media-types/image/png"
+    },
+    "resource.rights": {
+        "NONE":                        "Geen nadere gebruiksbeperkingen"
     }
 }

@@ -26,7 +26,7 @@ class WMSResponseXMLParser extends XMLParser
      */
     public function getAllLayers(): array
     {
-        $layers        = $this->xml->xpath('//Layer[@queryable=1]/parent::Layer');
+        $layers        = $this->xml->xpath('//Layer[@queryable=1]');
         $layer_parsers = [];
 
         foreach ($layers as $layer) {

@@ -13,7 +13,7 @@ interface IGeoserverHarvester
     /**
      * Harvests a specific component of the Nijmegen geoserver.
      *
-     * @throws HarvestingException Thrown on any error while harvesting the DataSource.
+     * @throws HarvestingException thrown on any error while harvesting the DataSource
      *
      * @return HarvestResult[] The harvested datasets
      */
