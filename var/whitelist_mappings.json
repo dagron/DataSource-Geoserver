@@ -4,13 +4,17 @@
         "gml32",
         "json",
         "KML",
-        "SHAPE-ZIP"
+        "SHAPE-ZIP",
+        "image/png",
+        "image/jpeg"
     ],
     "resource.mediaType": [
         "csv",
         "gml32",
         "json",
         "KML",
-        "SHAPE-ZIP"
+        "SHAPE-ZIP",
+        "image/png",
+        "image/jpeg"
     ]
 }

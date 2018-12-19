@@ -350,6 +350,15 @@ class PreparingBuildRule implements IDatasetBuildRule
             ']', $notices, $prefix
         );
 
+        if (null == $data) {
+            $notices[] = \sprintf(
+                '%s %s: Extracted 0 themes from harvested description',
+                $prefix, $this->property
+            );
+
+            return [];
+        }
+
         $themes = \explode(',', $data);
 
         for ($i = 0; $i < \count($themes); ++$i) {
