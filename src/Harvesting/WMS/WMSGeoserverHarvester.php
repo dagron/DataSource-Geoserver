@@ -99,7 +99,7 @@ class WMSGeoserverHarvester implements IGeoserverHarvester
                     $resource['title']       = \sprintf('%sx%s', $resource_type[0], $resource_type[1]);
                     $resource['description'] = $resource['title'];
                     $resource['accessURL']   = \sprintf(
-                        '%s/geoservices/wms/extern?service=WMS&version=1.3.0&request=GetMap&layers=%s&styles=default&CRS=EPSG:28992&bbox=%s&width=%s&height=%s&format=%s',
+                        '%s/geoservices/wms/extern?service=WMS&version=1.3.0&request=GetMap&layers=%s&styles=default&transparent=true&CRS=EPSG:28992&bbox=%s&width=%s&height=%s&format=%s',
                         $this->base_url, \str_replace(' ', '%20', $layer->findName()), $bounding_box, $resource_type[0], $resource_type[1], $parsable_response->findDesiredOutputFormat()
                     );
                     $resource['format']    = $parsable_response->findDesiredOutputFormat();
