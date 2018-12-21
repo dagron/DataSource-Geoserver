@@ -311,6 +311,7 @@ class GeoserverDataSourceManagerTest extends TestCase
                         "harvesting_frequency":         "daily",
                         "base_uris":                    ["https://services.nijmegen.nl"],
                         "layers_uri":                   "https://nijmegen-acc.textinfo.nl/nijmegensync/geoserver-workspaces",
+                        "wms_resource_resolutions":     [],
                         "defaults_file_path":           "defaults.json",
                         "blacklist_mappings_file_path": "blacklist_mappings.json",
                         "whitelist_mappings_file_path": "whitelist_mappings.json"
@@ -346,6 +347,7 @@ class GeoserverDataSourceManagerTest extends TestCase
                         "harvesting_frequency":         "daily",
                         "base_uris":                    ["https://services.nijmegen.nl"],
                         "layers_uri":                   "https://nijmegen-acc.textinfo.nl/nijmegensync/geoserver-workspaces",
+                        "wms_resource_resolutions":     [],
                         "defaults_file_path":           "defaults.json",
                         "blacklist_mappings_file_path": "blacklist_mappings.json",
                         "whitelist_mappings_file_path": "whitelist_mappings.json"
@@ -381,6 +383,7 @@ class GeoserverDataSourceManagerTest extends TestCase
                         "harvesting_frequency":         "yearly",
                         "base_uris":                    ["https://services.nijmegen.nl"],
                         "layers_uri":                   "https://nijmegen-acc.textinfo.nl/nijmegensync/geoserver-workspaces",
+                        "wms_resource_resolutions":     [],
                         "defaults_file_path":           "defaults.json",
                         "value_mappings_file_path":     "value_mappings.json",
                         "blacklist_mappings_file_path": "blacklist_mappings.json",
@@ -417,6 +420,7 @@ class GeoserverDataSourceManagerTest extends TestCase
                         "harvesting_frequency":         "daily",
                         "base_uris":                    ["https://services.nijmegen.nl"],
                         "layers_uri":                   "https://nijmegen-acc.textinfo.nl/nijmegensync/geoserver-workspaces",
+                        "wms_resource_resolutions":     [],
                         "defaults_file_path":           "defaults.json",
                         "value_mappings_file_path":     "value_mappings.json",
                         "blacklist_mappings_file_path": "blacklist_mappings.json",

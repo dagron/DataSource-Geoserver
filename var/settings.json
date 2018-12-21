@@ -7,6 +7,12 @@
                                         "WMS": "https://services.nijmegen.nl"
                                     },
     "layers_uri":                   "https://nijmegen-acc.textinfo.nl/nijmegensync/geoserver-workspaces",
+    "wms_resource_resolutions":     [
+                                        ["500", "500"],
+                                        ["1000", "1000"],
+                                        ["1500", "1500"],
+                                        ["2000", "2000"]
+                                    ],
     "defaults_file_path":           "defaults.json",
     "value_mappings_file_path":     "value_mappings.json",
     "blacklist_mappings_file_path": "blacklist_mappings.json",

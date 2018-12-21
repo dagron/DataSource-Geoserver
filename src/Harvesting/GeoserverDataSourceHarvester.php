@@ -21,6 +21,9 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
     /** @var string */
     protected $layers_uri;
 
+    /** @var array */
+    protected $wms_resource_resolutions;
+
     /**
      * {@inheritdoc}
      *
@@ -83,6 +86,22 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
     }
 
     /**
+     * @return array
+     */
+    public function getWmsResourceResolutions(): array
+    {
+        return $this->wms_resource_resolutions;
+    }
+
+    /**
+     * @param array $wms_resource_resolutions
+     */
+    public function setWmsResourceResolutions(array $wms_resource_resolutions): void
+    {
+        $this->wms_resource_resolutions = $wms_resource_resolutions;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function harvest(): array
@@ -93,6 +112,7 @@ class GeoserverDataSourceHarvester implements IDataSourceHarvester
 
         $wms_harvester = new WMSGeoserverHarvester();
         $wms_harvester->setBaseURL($this->base_uri['WMS']);
+        $wms_harvester->setResourceResolutions($this->wms_resource_resolutions);
 
         return \array_merge(
             $wfs_harvester->harvest(),
