@@ -58,6 +58,10 @@ class WMSLayerXMLParser extends XMLParser
      */
     public function findBoundingBox(): string
     {
+        if (!isset($this->xml->BoundingBox)) {
+            return '';
+        }
+
         foreach ($this->xml->BoundingBox as $box) {
             if ('EPSG:28992' == $box->attributes()['SRS']) {
                 $min_x = \substr($box->attributes()['minx'], 0, 6);
