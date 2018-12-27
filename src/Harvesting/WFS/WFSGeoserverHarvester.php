@@ -105,7 +105,7 @@ class WFSGeoserverHarvester implements IGeoserverHarvester
                     $data['title']               = \ucfirst(\strtolower(\str_replace('_', ' ', $entity->findTitle())));
                     $data['description']         = $entity->findAbstract();
                     $data['modificationDate']    = (new \DateTime('now', new \DateTimeZone('Europe/Amsterdam')))
-                        ->format('Y-m-d\TH:i:s');
+                        ->format('Y-m-d\T00:00:00');
                     $data['contact_point_email'] = $parsable_response->findContactEmail();
                     $data['contact_point_name']  = \sprintf(
                         '%s, %s',
