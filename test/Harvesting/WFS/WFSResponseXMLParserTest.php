@@ -143,4 +143,63 @@ class WFSResponseXMLParserTest extends TestCase
             $parser->findKeywords()
         );
     }
+
+    public function testReturnsEmptyStringWhenNoAccessRightsStatementsIsFound(): void
+    {
+        $parser = new WFSResponseXMLParser(new \SimpleXMLElement('
+            <root xmlns:ows="http://www.opengis.net/ows/1.1">
+                <ows:ServiceIdentification />
+            </root>
+        '));
+
+        $this->assertSame('', $parser->findAccessRights());
+    }
+
+    public function testReturnsTheFoundAccessRightsStatement(): void
+    {
+        $parser = new WFSResponseXMLParser(new \SimpleXMLElement('
+            <root xmlns:ows="http://www.opengis.net/ows/1.1">
+                <ows:ServiceIdentification>
+                    <ows:AccessConstraints>NONE</ows:AccessConstraints>
+                </ows:ServiceIdentification>
+            </root>
+        '));
+
+        $this->assertSame('NONE', $parser->findAccessRights());
+    }
+
+    public function testReturnsEmptyArrayWhenNoOutputFormatsAreFound(): void
+    {
+        $parser = new WFSResponseXMLParser(new \SimpleXMLElement('
+            <root xmlns:ows="http://www.opengis.net/ows/1.1">
+                <ows:OperationsMetadata />
+            </root>
+        '));
+
+        $this->assertTrue(0 == \count($parser->findSupportedOutputTypes()));
+    }
+
+    public function testReturnsTheFoundOutputFormats(): void
+    {
+        $parser = new WFSResponseXMLParser(new \SimpleXMLElement('
+            <root xmlns:ows="http://www.opengis.net/ows/1.1">
+                <ows:OperationsMetadata>
+                    <ows:Operation name="GetFeature">
+                        <ows:Parameter name="outputFormat">
+                            <ows:Value>test1</ows:Value>
+                            <ows:Value>test2</ows:Value>
+                        </ows:Parameter>
+                        <ows:Parameter name="otherParameter" />
+                    </ows:Operation>
+                    <ows:Operation name="otherOperation" />
+                </ows:OperationsMetadata>
+            </root>
+        '));
+
+        $this->assertTrue(2 == \count($parser->findSupportedOutputTypes()));
+        $this->assertSame(
+            ['test1', 'test2'],
+            $parser->findSupportedOutputTypes()
+        );
+    }
 }
