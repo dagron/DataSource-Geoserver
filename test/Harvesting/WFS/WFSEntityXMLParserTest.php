@@ -71,4 +71,33 @@ class WFSEntityXMLParserTest extends TestCase
 
         $this->assertSame('test', $parser->findAbstract());
     }
+
+    public function testReturnsEmptyArrayWhenNoKeywordsAreFound(): void
+    {
+        $parser = new WFSEntityXMLParser(new \SimpleXMLElement('
+            <root xmlns:ows="http://www.opengis.net/ows/1.1">
+                <ows:Keywords />
+            </root>
+        '));
+
+        $this->assertTrue(0 == \count($parser->findKeywords()));
+    }
+
+    public function testReturnsTheFoundKeywords(): void
+    {
+        $parser = new WFSEntityXMLParser(new \SimpleXMLElement('
+            <root xmlns:ows="http://www.opengis.net/ows/1.1">
+                <ows:Keywords>
+                    <ows:Keyword>test1</ows:Keyword>
+                    <ows:Keyword>test2</ows:Keyword>
+                </ows:Keywords>
+            </root>
+        '));
+
+        $this->assertTrue(2 == \count($parser->findKeywords()));
+        $this->assertSame(
+            ['test1', 'test2'],
+            $parser->findKeywords()
+        );
+    }
 }
