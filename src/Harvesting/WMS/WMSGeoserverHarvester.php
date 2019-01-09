@@ -87,7 +87,7 @@ class WMSGeoserverHarvester implements IGeoserverHarvester
                 ];
                 $data['identifier'] = \sprintf(
                     '%s/geoservices/wms/extern?service=WMS&version=1.3.0&request=GetMap&layers=%s',
-                    $this->base_url, $layer->findName()
+                    $this->base_url, \rawurlencode($layer->findName())
                 );
                 $data['title']            = $layer->findTitle();
                 $data['description']      = $layer->findAbstract();

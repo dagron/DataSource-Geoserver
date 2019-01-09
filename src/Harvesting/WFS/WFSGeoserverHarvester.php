@@ -100,7 +100,7 @@ class WFSGeoserverHarvester implements IGeoserverHarvester
 
                     $data['identifier']          = \sprintf(
                         '%s/geoservices/%s/ows?service=WFS&version=1.1.0&request=GetFeature&typeName=%s',
-                        $this->base_url, $layer, $entity->findName()
+                        $this->base_url, $layer, \rawurlencode($entity->findName())
                     );
                     $data['title']               = \ucfirst(\strtolower(\str_replace('_', ' ', $entity->findTitle())));
                     $data['description']         = $entity->findAbstract();
