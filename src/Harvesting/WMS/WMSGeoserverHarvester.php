@@ -93,11 +93,6 @@ class WMSGeoserverHarvester implements IGeoserverHarvester
                 $data['description']      = $layer->findAbstract();
                 $data['modificationDate'] = (new \DateTime('now', new \DateTimeZone('Europe/Amsterdam')))
                     ->format('Y-m-d\TH:i:s');
-                $data['contact_point_name'] = \sprintf(
-                    '%s, %s',
-                    $parsable_response->findContactPerson(),
-                    $parsable_response->findContactOrganization()
-                );
 
                 foreach ($this->resource_resolutions as $resource_resolution) {
                     $bounding_box = $layer->findBoundingBox();

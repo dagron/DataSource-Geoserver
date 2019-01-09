@@ -283,6 +283,32 @@ class PreparingBuildRule implements IDatasetBuildRule
                 $generated_description = \sprintf($template, $title, $wms_url);
 
                 break;
+            case 'WMS-Foto':
+                $template = \file_get_contents(
+                    \sprintf(
+                        '%s/%s',
+                        __DIR__, '../../var/templates/description_WMS-Foto.tpl'
+                    )
+                );
+                $wms_url = \sprintf(
+                    'https://services.nijmegen.nl/geoservices/wms/extern?'
+                );
+                $generated_description = \sprintf($template, $title, $wms_url);
+
+                break;
+            case 'WMS-Kaart':
+                $template = \file_get_contents(
+                    \sprintf(
+                        '%s/%s',
+                        __DIR__, '../../var/templates/description_WMS-Kaart.tpl'
+                    )
+                );
+                $wms_url = \sprintf(
+                    'https://services.nijmegen.nl/geoservices/wms/extern?'
+                );
+                $generated_description = \sprintf($template, $title, $wms_url);
+
+                break;
             case 'standaard':
             case 'WFS':
             default:

@@ -8,6 +8,9 @@
     "spatial_scheme":            "http://standaarden.overheid.nl/owms/4.0/doc/waardelijsten/overheid.gemeente",
     "spatial_value":             "http://standaarden.overheid.nl/owms/terms/Nijmegen_(gemeente)",
     "frequency":                 "http://publications.europa.eu/resource/authority/frequency/DAILY",
+    "contact_point_name":        "Bureau Basis- en Geoinformatie, gemeente Nijmegen",
+    "contact_point_email":       "open-data@nijmegen.nl",
+    "contact_point_website":     "https://open-data.nijmegen.nl",
     "resource.language":         "http://publications.europa.eu/resource/authority/language/NLD",
     "resource.metadataLanguage": "http://publications.europa.eu/resource/authority/language/NLD",
     "resource.license":          "http://creativecommons.org/publicdomain/zero/1.0/deed.nl"
