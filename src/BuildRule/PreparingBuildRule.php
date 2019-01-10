@@ -309,9 +309,7 @@ class PreparingBuildRule implements IDatasetBuildRule
                 $generated_description = \sprintf($template, $title, $wms_url);
 
                 break;
-            case 'standaard':
             case 'WFS':
-            default:
                 $template = \file_get_contents(
                     \sprintf(
                         '%s/%s',
@@ -322,6 +320,17 @@ class PreparingBuildRule implements IDatasetBuildRule
                     'https://services.nijmegen.nl/geoservices/%s/wfs?', $data['geoserver_layer']
                 );
                 $generated_description = \sprintf($template, $title, $wfs_url);
+
+                break;
+            case 'Standaard':
+            default:
+                $template = \file_get_contents(
+                    \sprintf(
+                        '%s/%s',
+                        __DIR__, '../../var/templates/description_Standaard.tpl'
+                    )
+                );
+                $generated_description = \sprintf($template, $title);
 
                 break;
         }
