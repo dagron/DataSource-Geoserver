@@ -63,8 +63,7 @@ class WMSLayerXMLParser extends XMLParser
         }
 
         foreach ($this->xml->BoundingBox as $box) {
-            if ('EPSG:28992' != $box->attributes()['SRS'] && 'none' != $box->attributes()['SRS']) {
-                # Waalfront datasets declare their SRS as 'none' but are in fact EPSG:28992
+            if ('EPSG:28992' != $box->attributes()['SRS']) {
                 continue;
             }
 

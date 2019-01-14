@@ -105,7 +105,7 @@ class PreparingBuildRule implements IDatasetBuildRule
      * @param array  $notices             The notices generated during the dataset building
      * @param string $prefix              The complex DCAT entity being built
      *
-     * @return string|null The extracted metadata, or null if the metadata was not
+     * @return null|string The extracted metadata, or null if the metadata was not
      *                     present
      */
     private function metadataExtractionByPattern(string &$description, string $property_to_extract,
@@ -184,7 +184,7 @@ class PreparingBuildRule implements IDatasetBuildRule
      * @param string[] $notices     The notices generated during the dataset building process
      * @param string   $prefix      The DCAT ComplexEntity being built
      *
-     * @return bool|null True or false if the metadata is present, null otherwise
+     * @return null|bool True or false if the metadata is present, null otherwise
      */
     private function extractSynchronization(string &$description, array &$notices, string $prefix): ?bool
     {
@@ -217,7 +217,7 @@ class PreparingBuildRule implements IDatasetBuildRule
      * @param string[] $notices     The notices generated during the dataset building process
      * @param string   $prefix      The DCAT ComplexEntity being built
      *
-     * @return string|null The extracted title or null if the pattern was absent
+     * @return null|string The extracted title or null if the pattern was absent
      */
     private function extractTitle(string &$description, array &$notices, $prefix): ?string
     {
@@ -253,7 +253,7 @@ class PreparingBuildRule implements IDatasetBuildRule
      * @param string   $title       The title of the dataset being built
      * @param array    $data        The harvested data
      *
-     * @return string|null The generated description template or null if the pattern was
+     * @return null|string The generated description template or null if the pattern was
      *                     absent
      */
     private function extractDescription(string &$description, array &$notices, string $prefix,

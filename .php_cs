@@ -38,6 +38,9 @@ return PhpCsFixer\Config::create()
             'ordered_imports'                     => true,
             'phpdoc_add_missing_param_annotation' => true,
             'phpdoc_order'                        => true,
+            'phpdoc_types_order'                  => [
+                'null_adjustment' => 'always_first'
+            ],
             'protected_to_private'                => true,
             'semicolon_after_instruction'         => true,
         ]
