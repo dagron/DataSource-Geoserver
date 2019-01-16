@@ -423,9 +423,9 @@ class PreparingBuildRule implements IDatasetBuildRule
      * @param string[] $notices     The notices generated during the dataset building process
      * @param string   $prefix      The DCAT ComplexEntity being built
      *
-     * @return bool Whether or not the dataset should be considered high value
+     * @return string Whether or not the dataset should be considered high value
      */
-    private function extractHighValue(string &$description, array &$notices, string $prefix): bool
+    private function extractHighValue(string &$description, array &$notices, string $prefix): string
     {
         $notices[] = \sprintf(
             '%s %s: Determining if dataset is considered high value',
