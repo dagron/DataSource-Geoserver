@@ -442,6 +442,6 @@ class PreparingBuildRule implements IDatasetBuildRule
             return false;
         }
 
-        return 'ja' === \trim(\strtolower($data)) ? 'True' : 'False';
+        return 'ja' === \trim(\strtolower($data)) ? 'true' : 'false';
     }
 }
