@@ -1,5 +1,5 @@
 {
-    "name": "NijmegenSync/DataSource-Geoserver",
+    "name": "nijmegensync/datasource-geoserver",
     "description": "Contains the functionality to harvest the Nijmegen geoserver.",
     "keywords": [],
     "homepage": "https://github.com/NijmegenSync/DataSource-Geoserver",
@@ -63,8 +63,8 @@
         "ext-dom": "*",
         "ext-simplexml": "*",
         "guzzlehttp/guzzle": "^6.2",
-        "NijmegenSync/Shared": "dev-master",
-        "NijmegenSync/DataSource": "dev-master"
+        "nijmegensync/shared": "dev-master",
+        "nijmegensync/datasource": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "^7",
