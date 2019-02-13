@@ -278,7 +278,7 @@ class PreparingBuildRule implements IDatasetBuildRule
                     )
                 );
                 $wms_url = \sprintf(
-                    'https://services.nijmegen.nl/geoservices/wms/extern?'
+                    'https://services.nijmegen.nl/geoservices/wms/extern?&request=getCapabilities&service=WMS'
                 );
                 $generated_description = \sprintf($template, $title, $wms_url);
 
@@ -291,7 +291,7 @@ class PreparingBuildRule implements IDatasetBuildRule
                     )
                 );
                 $wms_url = \sprintf(
-                    'https://services.nijmegen.nl/geoservices/wms/extern?'
+                    'https://services.nijmegen.nl/geoservices/wms/extern?&request=getCapabilities&service=WMS'
                 );
                 $generated_description = \sprintf($template, $title, $wms_url);
 
@@ -304,7 +304,7 @@ class PreparingBuildRule implements IDatasetBuildRule
                     )
                 );
                 $wms_url = \sprintf(
-                    'https://services.nijmegen.nl/geoservices/wms/extern?'
+                    'https://services.nijmegen.nl/geoservices/wms/extern?&request=getCapabilities&service=WMS'
                 );
                 $generated_description = \sprintf($template, $title, $wms_url);
 
@@ -317,9 +317,13 @@ class PreparingBuildRule implements IDatasetBuildRule
                     )
                 );
                 $wfs_url = \sprintf(
-                    'https://services.nijmegen.nl/geoservices/%s/wfs?', $data['geoserver_layer']
+                    'https://services.nijmegen.nl/geoservices/%s/ows?request=getCapabilities&service=WFS', $data['geoserver_layer']
                 );
-                $generated_description = \sprintf($template, $title, $wfs_url);
+                $wms_url = \sprintf(
+                    'https://services.nijmegen.nl/geoservices/%s/ows?request=getCapabilities&service=WMS', $data['geoserver_layer']
+                );
+
+                $generated_description = \sprintf($template, $title, $wfs_url, $wms_url);
 
                 break;
             case 'Standaard':
