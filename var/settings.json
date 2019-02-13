@@ -6,7 +6,7 @@
                                         "WFS": "https://services.nijmegen.nl",
                                         "WMS": "https://services.nijmegen.nl"
                                     },
-    "layers_uri":                   "https://nijmegen-acc.textinfo.nl/nijmegensync/geoserver-workspaces",
+    "layers_uri":                   "https://opendata.nijmegen.nl/nijmegensync/geoserver-workspaces",
     "wms_resource_resolutions":     [
                                         ["500", "500"],
                                         ["1000", "1000"],
